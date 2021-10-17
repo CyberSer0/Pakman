@@ -1,8 +1,6 @@
 #pragma once
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
+#include "Player.h"
+#include "Tilemap.h"
 
 /*
 	Main Game class/functionality wrapper
@@ -17,11 +15,23 @@ private:
 	sf::VideoMode videoMode;
 	sf::Event event;
 
+	// Map
+	Tilemap* map;
+	unsigned int size;
+	sf::Vector2u tileSize;
+	int* level;
+
+	// Player
+	Player* player;
+
 	// Private functions
 	void initVariables();
 	void initWindow();
+	void initMap();
+	void initPlayer();
 
 public: 
+
 	// De-/Constructors
 	Game();
 	virtual ~Game();
@@ -33,6 +43,5 @@ public:
 	void updateEvents();
 	void update();
 	void render();
-
 };
 

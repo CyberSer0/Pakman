@@ -4,10 +4,6 @@
 
 int main() 
 {
-	// Hide console window
-	HWND hwnd = GetConsoleWindow();
-	ShowWindow(hwnd, SW_HIDE);
-
 	// Init Game
 	Game game;
 
