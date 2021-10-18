@@ -20,6 +20,7 @@ private:
 	unsigned int size;
 	sf::Vector2u tileSize;
 	int* level;
+	std::string seed;
 
 	// Player
 	Player* player;

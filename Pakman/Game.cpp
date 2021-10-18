@@ -6,6 +6,26 @@ void Game::initVariables()
 	std::cout << "Wpisz rozmiar mapy: ";
 	std::cin >> this->size;
 	this->level = new int[size * size];
+
+	// WiP
+	std::cout << "Wpisz seed mapy (lub zostaw puste i potiwerdz dla losowego)" << "\nSeed mapy jest rowny (dlugosci rozmiaru mapy - 2) do kwadratu: ";
+	std::cin >> this->seed;
+
+	this->window = nullptr;
+}
+
+void Game::initWindow()
+{
+	this->videoMode.height = 700;
+	this->videoMode.width = 1280;
+
+	this->window = new sf::RenderWindow(this->videoMode, "Pakman");
+	this->window->setFramerateLimit(60);
+	this->window->setVerticalSyncEnabled(false);
+}
+
+void Game::initMap()
+{
 	// 0 - blank | 1 - upperL corner | 2 - upperR corner | 3 - lowerL corner | 4 - lowerR corner
 	// 5 - Ver. wall | 6 - Hor. wall | 7 - U-shape wall | 8 - n-shape wall | 9 - C-shape wall | 10 - >-shape wall
 	for (int i = 0; i < size; ++i)
@@ -44,24 +64,10 @@ void Game::initVariables()
 		}
 		std::cout << std::endl;
 	}
-	this->window = nullptr;
-}
-
-void Game::initWindow()
-{
-	this->videoMode.height = 700;
-	this->videoMode.width = 1280;
-
-	this->window = new sf::RenderWindow(this->videoMode, "Pakman");
-	this->window->setFramerateLimit(60);
-	this->window->setVerticalSyncEnabled(false);
-}
-
-void Game::initMap()
-{
 	this->map = new Tilemap();
 	this->tileSize = sf::Vector2u(16, 16);
 	map->loadMap("Assets/tileset.png", this->tileSize, this->level, size, size);
+
 }
 
 void Game::initPlayer()
