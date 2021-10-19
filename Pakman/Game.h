@@ -30,6 +30,10 @@ private:
 	void initWindow();
 	void initMap();
 	void initPlayer();
+	void collideUp(Player* player, Tilemap* tilemap);
+	void collideDown(Player* player, Tilemap* tilemap);
+	void collideLeft(Player* player, Tilemap* tilemap);
+	void collideRight(Player* player, Tilemap* tilemap);
 
 public: 
 

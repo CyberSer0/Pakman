@@ -69,5 +69,6 @@ void Player::update()
 void Player::render(sf::RenderTarget& targetWindow)
 {
 	//this->sprite.setScale(sf::Vector2f(this->scaleX, this->scaleY));
+	this->collisionBox = this->sprite.getGlobalBounds();
 	targetWindow.draw(this->sprite);
 }

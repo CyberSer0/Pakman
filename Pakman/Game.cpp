@@ -75,6 +75,23 @@ void Game::initPlayer()
 	this->player = new Player();
 }
 
+void Game::collideUp(Player* player, Tilemap* tilemap)
+{
+
+}
+
+void Game::collideDown(Player* player, Tilemap* tilemap)
+{
+}
+
+void Game::collideLeft(Player* player, Tilemap* tilemap)
+{
+}
+
+void Game::collideRight(Player* player, Tilemap* tilemap)
+{
+}
+
 // De-/Constructors
 Game::Game()
 {
@@ -121,7 +138,7 @@ void Game::updateEvents()
 		this->player->move(1.f, 0.f);
 }
 
-// Functions
+// Public Functions
 void Game::update()
 {
 	// Backend logic, keystrokes

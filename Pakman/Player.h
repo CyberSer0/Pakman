@@ -12,6 +12,7 @@ private:
 	sf::Sprite sprite;
 	float scaleX;
 	float scaleY;
+	sf::FloatRect collisionBox;
 
 	float movementSpeed;
 	
