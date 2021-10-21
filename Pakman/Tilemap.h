@@ -9,6 +9,10 @@ private:
 	// Private Variables
 	sf::VertexArray vertices;
 	sf::Texture tileset;
+	sf::Vertex* quad;
+	int tileNumber;
+	int tu;
+	int tv;
 
 public:
 	// Public functions

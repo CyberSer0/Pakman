@@ -26,14 +26,14 @@ bool Tilemap::loadMap(const std::string & tileset, sf::Vector2u tileSize, const 
 		for (unsigned int j = 0; j < height; ++j)
 		{
 			// Get current tyle number
-			int tileNumber = tiles[i + j * width];
+			this->tileNumber = tiles[i + j * width];
 
 			// Finding position in tileset texture
-			int tu = tileNumber % (this->tileset.getSize().x / tileSize.x);
-			int tv = tileNumber / (this->tileset.getSize().x / tileSize.x);
+			this->tu = tileNumber % (this->tileset.getSize().x / tileSize.x);
+			this->tv = tileNumber / (this->tileset.getSize().x / tileSize.x);
 			
 			// Getting a pointer to the current quad
-			sf::Vertex* quad = &this->vertices[(i + j * width) * 4];
+			this->quad = &this->vertices[(i + j * width) * 4];
 
 			// Defining the 4 corners of the level map
 			quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);

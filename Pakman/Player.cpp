@@ -19,19 +19,20 @@ void Player::initTexture()
 	}
 }
 
-void Player::initSprite()
+void Player::initSprite(int startTileX, int startTileY)
 {
 	// Setting the sprite to the set texture
 	this->sprite.setTexture(this->texture);
 	this->sprite.setOrigin(8, 8);
+	this->sprite.setPosition(startTileX, startTileY);
 }
 
 // Constructor
-Player::Player()
+Player::Player(int startTileX, int startTileY)
 {
 	this->initVariables();
 	this->initTexture();
-	this->initSprite();
+	this->initSprite(startTileX, startTileY);
 }
 
 // Deconstructor
@@ -63,7 +64,9 @@ void Player::move(const float dirX, const float dirY)
 // Functions
 void Player::update()
 {
-
+	this->tileX = sprite.getPosition().x/16;
+	this->tileY = sprite.getPosition().y/16;
+	//std::cout << "(" << this->tileX << ", " << this->tileY << ")" << std::endl;
 }
 
 void Player::render(sf::RenderTarget& targetWindow)

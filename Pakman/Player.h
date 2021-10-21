@@ -15,16 +15,20 @@ private:
 	sf::FloatRect collisionBox;
 
 	float movementSpeed;
-	
+
 	// Private functions
 	void initVariables();
 	void initTexture();
-	void initSprite();
+	void initSprite(int startTileX, int startTileY);
 
 public:
 	// De-/Constructors
-	Player();
+	Player(int startTileX, int startTileY);
 	virtual ~Player();
+
+	// Variables
+	int tileX;
+	int tileY;
 
 	// Functions
 	void move(const float dirX, const float dirY);

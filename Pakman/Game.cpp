@@ -5,7 +5,7 @@ void Game::initVariables()
 {
 	std::cout << "Wpisz rozmiar mapy: ";
 	std::cin >> this->size;
-	this->level = new int[size * size];
+	this->level = new int[(int)size * (int)size];
 
 	// WiP
 	std::cout << "Wpisz seed mapy (lub zostaw puste i potiwerdz dla losowego)" << "\nSeed mapy jest rowny (dlugosci rozmiaru mapy - 2) do kwadratu: ";
@@ -22,15 +22,17 @@ void Game::initWindow()
 	this->window = new sf::RenderWindow(this->videoMode, "Pakman");
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
+	this->view = this->window->getView();
+	this->view.setCenter((float)(this->videoMode.width / 2), (float)(this->videoMode.height / 2));
 }
 
 void Game::initMap()
 {
 	// 0 - blank | 1 - upperL corner | 2 - upperR corner | 3 - lowerL corner | 4 - lowerR corner
 	// 5 - Ver. wall | 6 - Hor. wall | 7 - U-shape wall | 8 - n-shape wall | 9 - C-shape wall | 10 - >-shape wall
-	for (int i = 0; i < size; ++i)
+	for (unsigned int i = 0; i < size; ++i)
 	{
-		for (int j = 0; j < size; ++j)
+		for (unsigned int j = 0; j < size; ++j)
 		{
 			if (j == 0 && i == 0)
 			{
@@ -72,24 +74,7 @@ void Game::initMap()
 
 void Game::initPlayer()
 {
-	this->player = new Player();
-}
-
-void Game::collideUp(Player* player, Tilemap* tilemap)
-{
-
-}
-
-void Game::collideDown(Player* player, Tilemap* tilemap)
-{
-}
-
-void Game::collideLeft(Player* player, Tilemap* tilemap)
-{
-}
-
-void Game::collideRight(Player* player, Tilemap* tilemap)
-{
+	this->player = new Player((tileSize.x / 2) * (int)size, (tileSize.y / 2) * (int)size);
 }
 
 // De-/Constructors
@@ -129,13 +114,17 @@ void Game::updateEvents()
 
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		this->player->move(0.f, -1.f);
+		if(level[(player->tileY - 1) * size + player->tileX] == 0)
+			this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		this->player->move(-1.f, 0.f);
+		if (level[player->tileY * size + player->tileX - 1] == 0)
+			this->player->move(-1.f, 0.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		this->player->move(0.f, 1.f);
+		if (level[(player->tileY + 1) * size + player->tileX] == 0)
+			this->player->move(0.f, 1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		this->player->move(1.f, 0.f);
+		if (level[player->tileY * size + player->tileX + 1] == 0)
+			this->player->move(1.f, 0.f);
 }
 
 // Public Functions
@@ -143,6 +132,7 @@ void Game::update()
 {
 	// Backend logic, keystrokes
 	this->updateEvents();
+	player->update();
 }
 
 void Game::render()
