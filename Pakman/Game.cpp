@@ -5,25 +5,23 @@ void Game::initVariables()
 {
 	std::cout << "Wpisz rozmiar mapy: ";
 	std::cin >> this->size;
+	if (this->size < 16)
+		this->size = 16;
+	else if (this->size > 64)
+		this->size = 64;
 	this->level = new int[(int)size * (int)size];
-
-	// WiP
-	std::cout << "Wpisz seed mapy (lub zostaw puste i potiwerdz dla losowego)" << "\nSeed mapy jest rowny (dlugosci rozmiaru mapy - 2) do kwadratu: ";
-	std::cin >> this->seed;
 
 	this->window = nullptr;
 }
 
 void Game::initWindow()
 {
-	this->videoMode.height = 700;
-	this->videoMode.width = 1280;
+	this->videoMode.height = 480;
+	this->videoMode.width = 640;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Pakman");
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
-	this->view = this->window->getView();
-	this->view.setCenter((float)(this->videoMode.width / 2), (float)(this->videoMode.height / 2));
 }
 
 void Game::initMap()
@@ -72,6 +70,38 @@ void Game::initMap()
 
 }
 
+void Game::initView()
+{
+	this->halfSize = (float)(this->tileSize.x * this->size) / 2;
+	this->view.setCenter(this->halfSize, this->halfSize);
+	this->view.zoom((float)this->tileSize.y * (float)this->size / ((float)this->videoMode.height * 2));
+	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
+}
+
+sf::View Game::letterBox(sf::View view, int width, int height)
+{
+	float windowRatio = width / (float)height;
+	float viewRatio = view.getSize().x / (float)view.getSize().y;
+	float sizeX = 1;
+	float sizeY = 1;
+	float posX = 0;
+	float posY = 0;
+
+	if (windowRatio > viewRatio)
+	{
+		sizeX = viewRatio / windowRatio;
+		posX = (1 - sizeX) / 2.f;
+	}
+	else
+	{
+		sizeY = windowRatio / viewRatio;
+		posY = (1 - sizeY) / 2.f;
+	}
+
+	view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
+	return view;
+}
+
 void Game::initPlayer()
 {
 	this->player = new Player((tileSize.x / 2) * (int)size, (tileSize.y / 2) * (int)size);
@@ -83,6 +113,7 @@ Game::Game()
 	this->initVariables();
 	this->initWindow();
 	this->initMap();
+	this->initView();
 	this->initPlayer();
 }
 
@@ -143,6 +174,7 @@ void Game::render()
 	// Draw game objects
 	this->window->draw(*map);
 	this->player->render(*this->window);
+	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
 
 	// Display the game
 	this->window->display();

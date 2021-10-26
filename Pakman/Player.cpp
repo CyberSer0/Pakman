@@ -5,8 +5,7 @@ using namespace sf;
 // Private functions
 void Player::initVariables()
 {
-	this->scaleX = 1;
-	this->scaleY = 1;
+	this->scale = sf::Vector2f(1, 1);
 	this->movementSpeed = 5.f;
 }
 
@@ -24,6 +23,7 @@ void Player::initSprite(int startTileX, int startTileY)
 	// Setting the sprite to the set texture
 	this->sprite.setTexture(this->texture);
 	this->sprite.setOrigin(8, 8);
+	this->sprite.setScale(this->scale.x, this->scale.y);
 	this->sprite.setPosition(startTileX, startTileY);
 }
 
@@ -47,12 +47,12 @@ void Player::move(const float dirX, const float dirY)
 	if (dirX == 1.f && dirY == 0.f)
 	{
 		this->sprite.setRotation(180.f);
-		this->sprite.setScale(this->scaleX, -this->scaleY);
+		this->sprite.setScale(this->scale.x, -this->scale.y);
 	}
 	else if(dirX == -1.f && dirY == 0.f)
 	{
 		this->sprite.setRotation(0.f);
-		this->sprite.setScale(this->scaleX, this->scaleY);
+		this->sprite.setScale(this->scale.x, this->scale.y);
 	}
 	else if(dirX == 0.f && dirY == 1.f)
 		this->sprite.setRotation(-90.f);
