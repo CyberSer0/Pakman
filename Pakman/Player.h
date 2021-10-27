@@ -18,6 +18,9 @@ public:
 	// De-/Constructor
 	Player(const std::string& textureName, int startTileX, int startTileY);
 
+	// Variables
+	sf::Vector2i currentTile; // Vector of current Tile X and current Tile Y of the Entity
+
 	// Functions
 	void move(const float dirX, const float dirY); // Function to move the player object/sprite
 

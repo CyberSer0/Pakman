@@ -20,8 +20,8 @@ void Entity::initTexture(const std::string& textureName)
 void Entity::initSprite(int startTileX, int startTileY)
 {
 	this->sprite.setTexture(this->texture); // Setting the texture given to the sprite 
-	this->sprite.setOrigin(8, 8); // Setting Origin of the sprite at the middle of it (16x16 textures)
 	this->sprite.setScale(this->scale, this->scale); // Setting the scale of the sprite
+	this->sprite.setOrigin(8, 8); // Setting Origin of the sprite at the middle of it (16x16 textures)
 	this->sprite.setPosition(startTileX, startTileY); // Setting the position of the sprite at (startTileX, startTileY)
 }
 
@@ -43,7 +43,7 @@ Entity::~Entity()
 // Update function
 void Entity::update()
 {
-	this->currentTile = sf::Vector2i(sprite.getPosition().x / 16, sprite.getPosition().y / 16); // Updating the current Tile the sprite is at
+	//this->currentTile = sf::Vector2i(sprite.getPosition().x / 16, sprite.getPosition().y / 16); // Updating the current Tile the sprite is at
 }
 
 // Render function

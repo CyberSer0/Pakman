@@ -29,7 +29,7 @@ void Enemy::pathfind()
 // Movement function for enemy
 void Enemy::move(const float dirX, const float dirY)
 {
-
+	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
 // Update logic and functionality

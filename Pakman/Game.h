@@ -1,6 +1,9 @@
 #pragma once
+#include "Entity.h"
 #include "Player.h"
 #include "Tilemap.h"
+
+#include <random>
 
 /*
 	Main Game class/functionality wrapper
@@ -24,8 +27,9 @@ private:
 	float halfSize; // Half of the game enviroment length (for view setting)
 	unsigned int size; // Size of the game environment (in nr of tiles)
 
-	// Player
+	// Entities
 	Player* player; // Creating a pointer to a player object
+	Entity* enemy; // Creating an enemy
 
 	// Private functions
 	void initVariables(); // Function to initialize differrent variables

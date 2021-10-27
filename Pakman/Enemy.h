@@ -18,6 +18,9 @@ public:
 	// De-/Constructor
 	Enemy(const std::string& textureName, int startTileX, int startTileY);
 
+	// Variables
+	sf::Vector2i currentTile; // Vector of current Tile X and current Tile Y of the Entity
+
 	// Functions
 	void pathfind();
 	void randomWalk();

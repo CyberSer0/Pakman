@@ -29,13 +29,19 @@ void Player::move(const float dirX, const float dirY)
 	else if(dirX == -1.f && dirY == 0.f)
 	{
 		this->sprite.setRotation(0.f);
+		this->sprite.setPosition(sprite.getPosition().x - 16, sprite.getPosition().y - 16);
 		this->sprite.setScale(this->scale, this->scale);
 	}
-	else if(dirX == 0.f && dirY == 1.f)
+	else if (dirX == 0.f && dirY == 1.f)
+	{
 		this->sprite.setRotation(-90.f);
+		this->sprite.setPosition(sprite.getPosition().x + 16, sprite.getPosition().y + 16);
+	}
 	else if(dirX == 0.f && dirY == -1.f)
+	{
 		this->sprite.setRotation(90.f);
-	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+	}
+		this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
 // Functions
@@ -47,5 +53,6 @@ void Player::update()
 void Player::render(sf::RenderTarget& targetWindow)
 {
 	this->collisionBox = this->sprite.getGlobalBounds();
+	
 	targetWindow.draw(this->sprite);
 }

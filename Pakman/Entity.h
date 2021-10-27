@@ -10,7 +10,7 @@ protected:
 	// Protected variables
 	sf::Texture texture; // Creating a texture object
 	sf::Sprite sprite; // Creating a sprite object
-	sf::FloatRect collisionBox; // Creating a collisionBox rectangle
+	sf::RectangleShape collisionBox; // Creating a collisionBox rectangle
 	float scale; // Creating scale variable
 
 	// Protected functions
@@ -28,8 +28,6 @@ protected:
 	virtual ~Entity();
 
 public:
-	sf::Vector2i currentTile; // Vector of current Tile X and current Tile Y of the Entity
-
 	void update(); // Function to update variables and logic
 	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality
 };
