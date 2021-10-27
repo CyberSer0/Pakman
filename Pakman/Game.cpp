@@ -1,16 +1,24 @@
 #include "Game.h"
 
-// Private Functions
+/*
+* Private Functions
+*/
 void Game::initVariables()
 {
-	std::cout << "Wpisz rozmiar mapy: ";
+	std::cout << "Wpisz rozmiar mapy (16 - 64): ";
 	std::cin >> this->size;
 	if (this->size < 16)
+	{
+		std::cout << "Too small of a value, changing to 16" << std::endl;
 		this->size = 16;
+	}
 	else if (this->size > 64)
+	{
+		std::cout << "Too big of a value, changing to 64" << std::endl;
 		this->size = 64;
-	this->level = new int[(int)size * (int)size];
+	}
 
+	this->level = new int[(int)size * (int)size];
 	this->window = nullptr;
 }
 
@@ -104,7 +112,7 @@ sf::View Game::letterBox(sf::View view, int width, int height)
 
 void Game::initPlayer()
 {
-	this->player = new Player((tileSize.x / 2) * (int)size, (tileSize.y / 2) * (int)size);
+	this->player = new Player( "Assets/pakman.png", ((int)tileSize.x / 2) * (int)size, ((int)tileSize.y / 2) * (int)size);
 }
 
 // De-/Constructors
@@ -158,7 +166,9 @@ void Game::updateEvents()
 			this->player->move(1.f, 0.f);
 }
 
-// Public Functions
+/*
+* Private Functions
+*/
 void Game::update()
 {
 	// Backend logic, keystrokes

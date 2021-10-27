@@ -2,57 +2,34 @@
 
 using namespace sf;
 
-// Private functions
+/*
+* Private functions
+*/ 
 void Player::initVariables()
 {
-	this->scale = sf::Vector2f(1, 1);
 	this->movementSpeed = 5.f;
 }
 
-void Player::initTexture()
-{
-	// Loading texure from file
-	if (!this->texture.loadFromFile("Assets/pakman.png"))
-	{
-		std::cout << "[!] ERR::PLAYER::INITTEXTURE(): Player texture couldn't be loaded\n" << std::endl;
-	}
-}
-
-void Player::initSprite(int startTileX, int startTileY)
-{
-	// Setting the sprite to the set texture
-	this->sprite.setTexture(this->texture);
-	this->sprite.setOrigin(8, 8);
-	this->sprite.setScale(this->scale.x, this->scale.y);
-	this->sprite.setPosition(startTileX, startTileY);
-}
-
+/*
+* Public functions
+*/ 
 // Constructor
-Player::Player(int startTileX, int startTileY)
+Player::Player(const std::string& textureName, int startTileX, int startTileY) : Entity(textureName, startTileX, startTileY)
 {
 	this->initVariables();
-	this->initTexture();
-	this->initSprite(startTileX, startTileY);
 }
-
-// Deconstructor
-Player::~Player()
-{
-	
-}
-
 
 void Player::move(const float dirX, const float dirY)
 {
 	if (dirX == 1.f && dirY == 0.f)
 	{
 		this->sprite.setRotation(180.f);
-		this->sprite.setScale(this->scale.x, -this->scale.y);
+		this->sprite.setScale(this->scale, -this->scale);
 	}
 	else if(dirX == -1.f && dirY == 0.f)
 	{
 		this->sprite.setRotation(0.f);
-		this->sprite.setScale(this->scale.x, this->scale.y);
+		this->sprite.setScale(this->scale, this->scale);
 	}
 	else if(dirX == 0.f && dirY == 1.f)
 		this->sprite.setRotation(-90.f);
@@ -64,14 +41,11 @@ void Player::move(const float dirX, const float dirY)
 // Functions
 void Player::update()
 {
-	this->tileX = sprite.getPosition().x/16;
-	this->tileY = sprite.getPosition().y/16;
-	//std::cout << "(" << this->tileX << ", " << this->tileY << ")" << std::endl;
+	this->currentTile = sf::Vector2i(sprite.getPosition().x/16, sprite.getPosition().y / 16);
 }
 
 void Player::render(sf::RenderTarget& targetWindow)
 {
-	//this->sprite.setScale(sf::Vector2f(this->scaleX, this->scaleY));
 	this->collisionBox = this->sprite.getGlobalBounds();
 	targetWindow.draw(this->sprite);
 }
