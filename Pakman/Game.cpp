@@ -18,7 +18,7 @@ void Game::initVariables()
 		this->size = 64;
 	}
 
-	this->level = new int[(int)size * (int)size];
+	this->level = new int[size * size];
 	this->window = nullptr;
 }
 
@@ -29,7 +29,7 @@ void Game::initWindow()
 
 	this->window = new sf::RenderWindow(this->videoMode, "Pakman");
 	this->window->setFramerateLimit(60);
-	this->window->setVerticalSyncEnabled(false);
+	this->window->setVerticalSyncEnabled(true);
 }
 
 void Game::initMap()
@@ -77,6 +77,9 @@ void Game::initMap()
 		for (unsigned int j = 2; j < size - 2; ++j)
 			if (rand() > (RAND_MAX / 2))
 				level[i * size + j] = 11;
+			else if (rand() > (RAND_MAX / 3) || rand() > (RAND_MAX / 4))
+				level[i * size + j] = 0;
+			
 
 	this->map = new Tilemap();
 	this->tileSize = sf::Vector2u(16, 16);

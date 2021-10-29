@@ -11,6 +11,10 @@ class Player : protected Entity
 private:
 	// Variables
 	float movementSpeed; // Creating a movement speed variable
+	sf::Texture textureLeft;
+	sf::Texture textureRight;
+	sf::Texture textureDown;
+	sf::Texture textureUp;
 
 	// Private functions
 	void initVariables(); // Function to initialize and set values to all Variables

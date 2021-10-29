@@ -10,7 +10,7 @@ protected:
 	// Protected variables
 	sf::Texture texture; // Creating a texture object
 	sf::Sprite sprite; // Creating a sprite object
-	sf::RectangleShape collisionBox; // Creating a collisionBox rectangle
+	sf::FloatRect collisionBox; // Creating a collisionBox rectangle
 	float scale; // Creating scale variable
 
 	// Protected functions
@@ -26,7 +26,7 @@ protected:
 	* Deconstructor - deletes objects created in the constructor to prevent memory leaks
 	*/
 	virtual ~Entity();
-
+	
 public:
 	void update(); // Function to update variables and logic
 	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality

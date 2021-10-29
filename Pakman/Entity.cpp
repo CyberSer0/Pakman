@@ -21,11 +21,10 @@ void Entity::initSprite(int startTileX, int startTileY)
 {
 	this->sprite.setTexture(this->texture); // Setting the texture given to the sprite 
 	this->sprite.setScale(this->scale, this->scale); // Setting the scale of the sprite
-	this->sprite.setOrigin(8, 8); // Setting Origin of the sprite at the middle of it (16x16 textures)
+	//this->sprite.setOrigin(8, 8); // Setting Origin of the sprite at the middle of it (16x16 textures)
 	this->sprite.setPosition(startTileX, startTileY); // Setting the position of the sprite at (startTileX, startTileY)
 }
 
-//// Public Functions
 // Constructor with overload
 Entity::Entity(const std::string& textureName, int startTileX, int startTileY)
 {
@@ -37,9 +36,10 @@ Entity::Entity(const std::string& textureName, int startTileX, int startTileY)
 // Deconstructor
 Entity::~Entity()
 {
-	
+
 }
 
+//// Public Functions
 // Update function
 void Entity::update()
 {
