@@ -14,7 +14,7 @@ bool Tilemap::loadMap(const std::string & tileset, sf::Vector2u tileSize, const 
 {
 	// Loading tileset texture
 	if (!this->tileset.loadFromFile(tileset))
-			std::cout << "" << std::endl;
+		std::cout << "[!] ERR::" << this << "::LOADMAP(): " << this << " map couldn't be loaded" << std::endl;
 
 	// Resizing the vertex array
 	this->vertices.setPrimitiveType(sf::Quads);

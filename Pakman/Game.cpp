@@ -73,12 +73,12 @@ void Game::initMap()
 		std::cout << std::endl;
 	}
 
-	for (unsigned int i = 2; i < size - 2; ++i)
+	/*for (unsigned int i = 2; i < size - 2; ++i)
 		for (unsigned int j = 2; j < size - 2; ++j)
 			if (rand() > (RAND_MAX / 2))
 				level[i * size + j] = 11;
 			else if (rand() > (RAND_MAX / 3) || rand() > (RAND_MAX / 4))
-				level[i * size + j] = 0;
+				level[i * size + j] = 0;*/
 			
 
 	this->map = new Tilemap();
@@ -121,7 +121,7 @@ sf::View Game::letterBox(sf::View view, int width, int height)
 
 void Game::initPlayer()
 {
-	this->player = new Player( "Assets/Player/pakman.png", ((int)tileSize.x / 2) * (int)size, ((int)tileSize.y / 2) * (int)size);
+	this->player = new Player( "Assets/Player/pakman_right.png", ((int)tileSize.x / 2) * (int)size, ((int)tileSize.y / 2) * (int)size);
 }
 
 // De-/Constructors
@@ -162,16 +162,16 @@ void Game::updateEvents()
 
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		if(level[(player->currentTile.y - 1) * size + player->currentTile.x] == 0)
+		if(this->level[(this->player->currentTile.y - 1) * this->size + this->player->currentTile.x] == 0)
 			this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		if (level[player->currentTile.y * size + player->currentTile.x - 1] == 0)
+		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x - 1] == 0)
 			this->player->move(-1.f, 0.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		if (level[(player->currentTile.y + 1) * size + player->currentTile.x] == 0)
+		if (this->level[(this->player->currentTile.y + 1) * this->size + this->player->currentTile.x] == 0)
 			this->player->move(0.f, 1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		if (level[player->currentTile.y * size + player->currentTile.x + 1] == 0)
+		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x + 1] == 0)
 			this->player->move(1.f, 0.f);
 }
 

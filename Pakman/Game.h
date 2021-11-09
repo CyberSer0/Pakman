@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Enemy.h"
 #include "Player.h"
 #include "Tilemap.h"
 
@@ -29,7 +30,7 @@ private:
 
 	// Entities
 	Player* player; // Creating a pointer to a player object
-	Entity* enemy; // Creating an enemy
+	Enemy* enemy; // Creating an enemy
 
 	// Private functions
 	void initVariables(); // Function to initialize differrent variables

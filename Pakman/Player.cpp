@@ -53,8 +53,8 @@ void Player::move(const float dirX, const float dirY)
 // Functions
 void Player::update()
 {
-	this->currentTile = sf::Vector2i((sprite.getPosition().x + 8) / 16, (sprite.getPosition().y + 8) / 16);
-	std::cout << this->currentTile.x << ", " << this->currentTile.y << "\t" << this->sprite.getPosition().x << ", " << this->sprite.getPosition().y << std::endl;
+	this->currentTile = sf::Vector2i((sprite.getPosition().x) / 16, (sprite.getPosition().y) / 16);
+	std::cout << "tileX: " << this->currentTile.x << ", tileY: " << this->currentTile.y << "\tX: " << this->sprite.getPosition().x << ", Y: " << this->sprite.getPosition().y << std::endl;
 }
 
 void Player::render(sf::RenderTarget& targetWindow)
