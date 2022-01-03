@@ -10,7 +10,7 @@
 
 class MainMenu : protected Scene
 {
-// Private Sector
+	// Private Sector
 private:
 
 	sf::Font font;
@@ -27,13 +27,13 @@ private:
 	void SelectUp();
 	void SelectDown();
 
-// Public Sector
+	// Public Sector
 public:
 	bool menuState;
 	int buttonSelected;
 
 	sf::View view;
-	
+
 	MainMenu();
 	virtual ~MainMenu();
 

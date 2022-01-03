@@ -30,7 +30,7 @@ Scene::Scene(sf::RenderWindow* window)
 
 Scene::~Scene()
 {
-	delete this->window;
+	
 }
 
 sf::RenderWindow* Scene::getWindow()

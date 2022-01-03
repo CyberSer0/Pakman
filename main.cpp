@@ -41,6 +41,7 @@ int main()
 				mainMenu.~MainMenu();
 				game.~Game();
 				return 0;
+				break;
 				/*game.gameState = false;
 				mainMenu.menuState = true;*/
 			}
@@ -51,7 +52,7 @@ int main()
 			// Render graphics
 			game.render();
 		}
-		else 
+		else
 		{
 			break;
 		}
