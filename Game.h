@@ -18,6 +18,7 @@ class Game : protected Scene
 private:
 	sf::Event event;
 
+	bool m_temp = false;
 
 	// Map
 	Tilemap* map; // Creating a ptr to the tilemap object map for creating a game environment
@@ -32,13 +33,13 @@ private:
 	// Private functions
 	void initVariables(); // Function to initialize differrent variables
 	void initView(); // Function to set and modify the camera view
-	sf::View letterBox(sf::View view, int width, int height); // Function to responsively adjust the scale and size of the game objects and view
+	sf::View letterBox(sf::View view, size_t width, int height); // Function to responsively adjust the scale and size of the game objects and view
 	void initPlayer(); // Function to initialize the player object and it's functionality
 
 public: 
 	// Public Variables
 	bool gameState;
-	unsigned int size; // Size of the game environment (in nr of tiles)
+	size_t size; // Size of the game environment (in nr of tiles)
 
 	// View
 	sf::View view; // Creating a view object to use as a camera

@@ -35,7 +35,7 @@ void Enemy::move(const float dirX, const float dirY)
 // Update logic and functionality
 void Enemy::update()
 {
-	this->currentTile = sf::Vector2i(this->sprite.getPosition().x / 16, this->sprite.getPosition().y / 16);
+	this->currentTile = sf::Vector2i((int)((float)this->sprite.getPosition().x / 16), (int)((float)this->sprite.getPosition().y / 16));
 
 	switch (this->playerSeen)
 	{

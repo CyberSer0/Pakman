@@ -21,9 +21,9 @@ void MainMenu::initVariables()
 
 void MainMenu::initView()
 {
-	this->view.setCenter(this->window->getSize().x / 2, this->window->getSize().y / 2);
+	this->view.setCenter((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2);
 	this->view.zoom(0.75f);
-	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
+	this->window->setView(this->letterBox(this->view, (float)this->window->getSize().x, (float)this->window->getSize().y));
 }
 
 void MainMenu::initButtons()
@@ -33,40 +33,40 @@ void MainMenu::initButtons()
 	this->mainMenu[0].setFillColor(sf::Color::White);
 	this->mainMenu[0].setString("PAKMAN");
 	this->mainMenu[0].setCharacterSize(FONT_SIZE + 20);
-	this->mainMenu[0].setOrigin(mainMenu[0].getCharacterSize() * mainMenu[0].getString().getSize() / 2, mainMenu[0].getCharacterSize() / 2);
-	this->mainMenu[0].setPosition(this->window->getSize().x / 2, this->window->getSize().y / 2 - 200);
+	this->mainMenu[0].setOrigin(mainMenu[0].getCharacterSize() * (float)mainMenu[0].getString().getSize() / 2, (float)mainMenu[0].getCharacterSize() / 2);
+	this->mainMenu[0].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 200);
 
 	// Play Button
 	this->mainMenu[1].setFont(this->font);
 	this->mainMenu[1].setFillColor(sf::Color::White);
 	this->mainMenu[1].setString("Play");
 	this->mainMenu[1].setCharacterSize(FONT_SIZE);
-	this->mainMenu[1].setOrigin(FONT_SIZE * mainMenu[1].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[1].setPosition(this->window->getSize().x / 2, this->window->getSize().y / 2 - 120);
+	this->mainMenu[1].setOrigin(FONT_SIZE * (float)mainMenu[1].getString().getSize() / 2, FONT_SIZE / 2);
+	this->mainMenu[1].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 120);
 
 	// Editor Button
 	this->mainMenu[2].setFont(this->font);
 	this->mainMenu[2].setFillColor(sf::Color::White);
 	this->mainMenu[2].setString("Editor");
 	this->mainMenu[2].setCharacterSize(FONT_SIZE);
-	this->mainMenu[2].setOrigin(FONT_SIZE * mainMenu[2].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[2].setPosition(this->window->getSize().x / 2, this->window->getSize().y / 2 - 40);
+	this->mainMenu[2].setOrigin(FONT_SIZE * (float)mainMenu[2].getString().getSize() / 2, FONT_SIZE / 2);
+	this->mainMenu[2].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 40);
 
 	// Options Button
 	this->mainMenu[3].setFont(this->font);
 	this->mainMenu[3].setFillColor(sf::Color::White);
 	this->mainMenu[3].setString("Options");
 	this->mainMenu[3].setCharacterSize(FONT_SIZE);
-	this->mainMenu[3].setOrigin(FONT_SIZE * mainMenu[3].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[3].setPosition(this->window->getSize().x / 2, this->window->getSize().y / 2 + 40);
+	this->mainMenu[3].setOrigin(FONT_SIZE * (float)mainMenu[3].getString().getSize() / 2, FONT_SIZE / 2);
+	this->mainMenu[3].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 + 40);
 
 	// Exit Button
 	this->mainMenu[4].setFont(this->font);
 	this->mainMenu[4].setFillColor(sf::Color::White);
 	this->mainMenu[4].setString("Exit");
 	this->mainMenu[4].setCharacterSize(FONT_SIZE);
-	this->mainMenu[4].setOrigin(FONT_SIZE * mainMenu[4].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[4].setPosition(this->window->getSize().x / 2, this->window->getSize().y / 2 + 120);
+	this->mainMenu[4].setOrigin(FONT_SIZE * (float)mainMenu[4].getString().getSize() / 2, FONT_SIZE / 2);
+	this->mainMenu[4].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 + 120);
 }
 
 void MainMenu::SelectUp()
@@ -138,7 +138,7 @@ void MainMenu::update()
 	this->updateEvents();
 
 	this->selectionRect.setPosition(this->mainMenu[buttonSelected].getPosition().x - 1, this->mainMenu[buttonSelected].getPosition().y + 12.5f);
-	this->selectionRect.setSize(sf::Vector2f(FONT_SIZE * mainMenu[buttonSelected].getString().getSize() + 10, FONT_SIZE + 10));
+	this->selectionRect.setSize(sf::Vector2f(FONT_SIZE * (float)mainMenu[buttonSelected].getString().getSize() + 10, FONT_SIZE + 10));
 	this->selectionRect.setOrigin(selectionRect.getSize().x / 2, selectionRect.getSize().y);
 }
 
@@ -150,7 +150,7 @@ void MainMenu::render()
 		this->window->draw(mainMenu[i]);
 
 	this->window->draw(this->selectionRect);
-	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
+	this->window->setView(this->letterBox(this->view, (float)this->window->getSize().x, (float)this->window->getSize().y));
 
 	this->window->display();
 }

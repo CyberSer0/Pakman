@@ -67,12 +67,12 @@ void Game::initMap()
 		std::cout << std::endl;
 	}
 
-	/*for (unsigned int i = 2; i < size - 2; ++i)
+	for (unsigned int i = 2; i < size - 2; ++i)
 		for (unsigned int j = 2; j < size - 2; ++j)
-			if (rand() > (RAND_MAX / 2))
+			if (rand() > (RAND_MAX / 1.5))
 				level[i * size + j] = 11;
 			else if (rand() > (RAND_MAX / 3) || rand() > (RAND_MAX / 4))
-				level[i * size + j] = 0;*/
+				level[i * size + j] = 0;
 			
 
 	this->map = new Tilemap();
@@ -84,11 +84,11 @@ void Game::initView()
 {
 	this->halfSize = (float)(this->tileSize.x * this->size) / 2;
 	this->view.setCenter(this->halfSize, this->halfSize);
-	//this->view.zoom((float)this->tileSize.y * (float)this->size / ((float)this->videoMode.height * 2));
+	this->view.zoom(0.35f);
 	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
 }
 
-sf::View Game::letterBox(sf::View view, int width, int height)
+sf::View Game::letterBox(sf::View view, size_t width, int height)
 {
 	float windowRatio = width / (float)height;
 	float viewRatio = view.getSize().x / (float)view.getSize().y;
