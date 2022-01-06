@@ -26,7 +26,6 @@ protected:
 	* Deconstructor - deletes objects created in the constructor to prevent memory leaks
 	*/
 	virtual ~Entity();
-	
 public:
 	void update(); // Function to update variables and logic
 	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality

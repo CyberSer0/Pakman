@@ -12,6 +12,7 @@ class MainMenu : protected Scene
 {
 	// Private Sector
 private:
+	bool menuState;
 
 	sf::Font font;
 	sf::Text mainMenu[MAX_MAINMENU_BUTTONS];
@@ -29,12 +30,12 @@ private:
 
 	// Public Sector
 public:
-	bool menuState;
 	int buttonSelected;
 
 	sf::View view;
 
 	MainMenu();
+	MainMenu(sf::RenderWindow* window);
 	virtual ~MainMenu();
 
 	sf::View letterBox(sf::View view, float width, float height);

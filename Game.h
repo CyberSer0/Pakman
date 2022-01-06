@@ -61,5 +61,6 @@ public:
 	void updateEvents(); // Event Handler
 	void update(); // Logic and background updates
 	void render(); // Graphic updates
+	sf::RenderWindow* getWindow();
 };
 

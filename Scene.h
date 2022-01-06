@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Scene
 {
@@ -11,6 +12,7 @@ protected:
 
 	void initVariables();
 	void initWindow(); // Function to initialize the window and all it's functionality
+	void initWindow(sf::RenderWindow* window); // Function to initialize the window and all it's functionality
 
 // Public sector (Everyone can access)
 public:

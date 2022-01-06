@@ -5,56 +5,51 @@
 
 int main()
 {
+	sf::RenderWindow* mainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Pakman");
+
 	// Init Game
-	MainMenu mainMenu;
-	Game game = Game(mainMenu.getWindow());
+	MainMenu mainMenu(mainWindow);
+	Game game(mainWindow);
 
 	// Loop
-	do {
+	while (mainWindow->isOpen()) 
+	{
 		// Main menu loop when main menu is running
 		if (mainMenu.isRunning())
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-				if (mainMenu.buttonSelected == 1)
-				{
-					mainMenu.menuState = false;
-					game.gameState = true;
-					game.initMap();
-				}
-				else if (mainMenu.buttonSelected == 4)
-				{
-					return 0;
-				}
-
 			// Update logic
 			mainMenu.update();
 
 			// Render graphics
 			mainMenu.render();
+
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+				if (mainMenu.buttonSelected == 1)
+				{
+					game = Game(mainWindow);
+				}
+				else if (mainMenu.buttonSelected == 4)
+				{
+					mainWindow->close();
+					return 0;
+				}
 		}
 
 		// Game loop when game is running
 		else if (game.gameRunning())
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			{
-				mainMenu.~MainMenu();
-				game.~Game();
-				return 0;
-				break;
-				/*game.gameState = false;
-				mainMenu.menuState = true;*/
-			}
-
 			// Update logic
 			game.update();
 
 			// Render graphics
 			game.render();
+			
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				mainMenu = MainMenu(mainWindow);
+				//game.~Game();
+			}
 		}
-		else
-		{
-			break;
-		}
-	} while (1);
+	}
 }

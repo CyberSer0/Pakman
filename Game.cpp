@@ -62,16 +62,14 @@ void Game::initMap()
 			{
 				level[i * size + j] = 0;
 			}
-			std::cout << level[i * size + j] << " ";
 		}
-		std::cout << std::endl;
 	}
 
-	for (unsigned int i = 2; i < size - 2; ++i)
-		for (unsigned int j = 2; j < size - 2; ++j)
-			if (rand() > (RAND_MAX / 1.5))
+	for (size_t i = 2; i < size - 2; ++i)
+		for (size_t j = 2; j < size - 2; ++j)
+			if (rand() > (RAND_MAX / 1.25))
 				level[i * size + j] = 11;
-			else if (rand() > (RAND_MAX / 3) || rand() > (RAND_MAX / 4))
+			else if (rand() > (RAND_MAX / 3))
 				level[i * size + j] = 0;
 			
 
@@ -84,7 +82,7 @@ void Game::initView()
 {
 	this->halfSize = (float)(this->tileSize.x * this->size) / 2;
 	this->view.setCenter(this->halfSize, this->halfSize);
-	this->view.zoom(0.35f);
+	this->view.zoom(0.3f);
 	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
 }
 
@@ -122,7 +120,7 @@ void Game::initPlayer()
 Game::Game(sf::RenderWindow* window) : Scene{ window }
 {
 	this->initVariables();
-	//this->initMap();
+	this->initMap();
 	this->initView();
 	this->initPlayer();
 }
@@ -131,7 +129,9 @@ Game::~Game()
 {
 	this->gameState = false;
 	delete this->player;
-	delete[] level;
+	//delete this->enemy;
+	delete[] this->level;
+	delete this->map;
 }
 
 // Accessors
@@ -151,13 +151,13 @@ void Game::updateEvents()
 
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		if (this->level[(this->player->currentTile.y - 1) * this->size + this->player->currentTile.x] == 0)
+		if (this->level[((size_t)this->player->currentTile.y - 1) * this->size + this->player->currentTile.x] == 0)
 			this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x - 1] == 0)
 			this->player->move(-1.f, 0.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		if (this->level[(this->player->currentTile.y + 1) * this->size + this->player->currentTile.x] == 0)
+		if (this->level[((size_t)this->player->currentTile.y + 1) * this->size + this->player->currentTile.x] == 0)
 			this->player->move(0.f, 1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x + 1] == 0)
@@ -186,4 +186,9 @@ void Game::render()
 
 	// Display the game
 	this->window->display();
+}
+
+sf::RenderWindow* Game::getWindow()
+{
+	return this->window;
 }

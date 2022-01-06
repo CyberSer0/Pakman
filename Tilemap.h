@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <SFML/Graphics.hpp>
 
 /*
@@ -21,6 +22,7 @@ public:
 	// Public functions
 	// Function to load the map, arguments: (tileset - name of tileset file, tileSize - dimensions of 1 tile, width, height - width and height of the generated map)
 	bool loadMap(const std::string& tilemap, sf::Vector2u tileSize, const int* tiles, size_t width, size_t height);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // 
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::VertexArray getMapVertices() const;
 };
 

@@ -12,7 +12,6 @@ void MainMenu::initFont()
 void MainMenu::initVariables()
 {
 	std::cout << this << "\tMain Menu window:\t" << this->window << "\tView:\t" << &(this->window->getView()) << std::endl;
-	this->menuState = true;
 	this->buttonSelected = 1;
 	this->selectionRect.setFillColor(sf::Color(0, 0, 0, 0));
 	this->selectionRect.setOutlineColor(sf::Color::White);
@@ -77,13 +76,14 @@ void MainMenu::SelectUp()
 
 void MainMenu::SelectDown()
 {
-	if (this->buttonSelected < 4)
+	if (this->buttonSelected < MAX_MAINMENU_BUTTONS - 1)
 		this->buttonSelected++;
 }
 
 // Public Methods
-MainMenu::MainMenu()
+MainMenu::MainMenu(sf::RenderWindow* window) : Scene{ window }
 {
+	this->menuState = true;
 	initFont();
 	initVariables();
 	initView();
@@ -92,7 +92,7 @@ MainMenu::MainMenu()
 
 MainMenu::~MainMenu()
 {
-	
+	this->menuState = false;
 }
 
 sf::View MainMenu::letterBox(sf::View view, float width, float height)
@@ -158,7 +158,7 @@ void MainMenu::render()
 
 int MainMenu::MainMenuPressed()
 {
-	return this-> buttonSelected;
+	return this->buttonSelected;
 }
 
 const bool MainMenu::isRunning() const
