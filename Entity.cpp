@@ -20,9 +20,14 @@ void Entity::initTexture(const std::string& textureName)
 void Entity::initSprite(int startTileX, int startTileY)
 {
 	this->sprite.setTexture(this->texture); // Setting the texture given to the sprite 
-	//this->sprite.setScale(this->scale, this->scale); // Setting the scale of the sprite
 	this->sprite.setOrigin(0, 0); // Setting Origin of the sprite at the middle of it (16x16 textures)
 	this->sprite.setPosition((float)startTileX, (float)startTileY); // Setting the position of the sprite at (startTileX, startTileY)
+}
+
+// Default constructor
+Entity::Entity()
+{
+
 }
 
 // Constructor with overload
@@ -44,12 +49,12 @@ Entity::~Entity()
 void Entity::update()
 {
 	//this->currentTile = sf::Vector2i(sprite.getPosition().x / 16, sprite.getPosition().y / 16); // Updating the current Tile the sprite is at
+	this->collisionBox = this->sprite.getGlobalBounds(); // Setting the collision box to the global bounds of the sprite
 }
 
 // Render function
-void Entity::render(sf::RenderTarget& targetWindow)
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
-	targetWindow.draw(this->sprite); // Drawing the sprite on the targetWindow
-	this->collisionBox = this->sprite.getGlobalBounds(); // Setting the collision box to the global bounds of the sprite
+	target.draw(this->sprite); // Drawing the sprite on the targetWindow
 }
 

@@ -64,4 +64,3 @@ sf::VertexArray Tilemap::getMapVertices() const
 
 
 
-

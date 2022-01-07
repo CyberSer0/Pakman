@@ -5,33 +5,35 @@
 
 int main()
 {
-	sf::RenderWindow* mainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Pakman");
+	sf::RenderWindow mainWindow(sf::VideoMode(640, 480), "Pakman");
 
 	// Init Game
-	MainMenu mainMenu(mainWindow);
-	Game game(mainWindow);
+	MainMenu mainMenu;
+	Game game;
 
 	// Loop
-	while (mainWindow->isOpen()) 
+	while (mainWindow.isOpen()) 
 	{
 		// Main menu loop when main menu is running
 		if (mainMenu.isRunning())
 		{
-			// Update logic
-			mainMenu.update();
 
 			// Render graphics
-			mainMenu.render();
+			mainWindow.draw(mainMenu);
 
+			// Update logic
+			mainMenu.update(mainWindow);
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 				if (mainMenu.buttonSelected == 1)
 				{
-					game = Game(mainWindow);
+					mainMenu.menuState = false;
+					game = Game();
+					game.gameState = true;
 				}
 				else if (mainMenu.buttonSelected == 4)
 				{
-					mainWindow->close();
+					mainWindow.close();
 					return 0;
 				}
 		}
@@ -39,17 +41,22 @@ int main()
 		// Game loop when game is running
 		else if (game.gameRunning())
 		{
-			// Update logic
-			game.update();
 
 			// Render graphics
-			game.render();
+			mainWindow.draw(game);
 			
+			// Update logic
+			game.update(mainWindow);
+
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
-				mainMenu = MainMenu(mainWindow);
-				//game.~Game();
+				mainMenu.menuState = true;
+				game.gameState = false;
 			}
 		}
+
+		mainWindow.setFramerateLimit(60);
+		mainWindow.setVerticalSyncEnabled(true);
+		mainWindow.display();
 	}
 }

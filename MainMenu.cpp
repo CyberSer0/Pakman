@@ -11,7 +11,7 @@ void MainMenu::initFont()
 
 void MainMenu::initVariables()
 {
-	std::cout << this << "\tMain Menu window:\t" << this->window << "\tView:\t" << &(this->window->getView()) << std::endl;
+	//std::cout << this << "\tMain Menu window:\t" << this->window << "\tView:\t" << &(this->window->getView()) << std::endl;
 	this->buttonSelected = 1;
 	this->selectionRect.setFillColor(sf::Color(0, 0, 0, 0));
 	this->selectionRect.setOutlineColor(sf::Color::White);
@@ -20,9 +20,9 @@ void MainMenu::initVariables()
 
 void MainMenu::initView()
 {
-	this->view.setCenter((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2);
+	this->view.setCenter((float)this->videoMode.width / 2, (float)this->videoMode.height / 2);
 	this->view.zoom(0.75f);
-	this->window->setView(this->letterBox(this->view, (float)this->window->getSize().x, (float)this->window->getSize().y));
+	//this->window->setView(this->letterBox(this->view, (float)this->videoMode.width, (float)this->videoMode.height));
 }
 
 void MainMenu::initButtons()
@@ -32,40 +32,40 @@ void MainMenu::initButtons()
 	this->mainMenu[0].setFillColor(sf::Color::White);
 	this->mainMenu[0].setString("PAKMAN");
 	this->mainMenu[0].setCharacterSize(FONT_SIZE + 20);
+	this->mainMenu[0].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 200);
 	this->mainMenu[0].setOrigin(mainMenu[0].getCharacterSize() * (float)mainMenu[0].getString().getSize() / 2, (float)mainMenu[0].getCharacterSize() / 2);
-	this->mainMenu[0].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 200);
 
 	// Play Button
 	this->mainMenu[1].setFont(this->font);
 	this->mainMenu[1].setFillColor(sf::Color::White);
 	this->mainMenu[1].setString("Play");
 	this->mainMenu[1].setCharacterSize(FONT_SIZE);
+	this->mainMenu[1].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 120);
 	this->mainMenu[1].setOrigin(FONT_SIZE * (float)mainMenu[1].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[1].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 120);
 
 	// Editor Button
 	this->mainMenu[2].setFont(this->font);
 	this->mainMenu[2].setFillColor(sf::Color::White);
 	this->mainMenu[2].setString("Editor");
 	this->mainMenu[2].setCharacterSize(FONT_SIZE);
+	this->mainMenu[2].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 40);
 	this->mainMenu[2].setOrigin(FONT_SIZE * (float)mainMenu[2].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[2].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 - 40);
 
 	// Options Button
 	this->mainMenu[3].setFont(this->font);
 	this->mainMenu[3].setFillColor(sf::Color::White);
 	this->mainMenu[3].setString("Options");
 	this->mainMenu[3].setCharacterSize(FONT_SIZE);
+	this->mainMenu[3].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 40);
 	this->mainMenu[3].setOrigin(FONT_SIZE * (float)mainMenu[3].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[3].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 + 40);
 
 	// Exit Button
 	this->mainMenu[4].setFont(this->font);
 	this->mainMenu[4].setFillColor(sf::Color::White);
 	this->mainMenu[4].setString("Exit");
 	this->mainMenu[4].setCharacterSize(FONT_SIZE);
+	this->mainMenu[4].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 120);
 	this->mainMenu[4].setOrigin(FONT_SIZE * (float)mainMenu[4].getString().getSize() / 2, FONT_SIZE / 2);
-	this->mainMenu[4].setPosition((float)this->window->getSize().x / 2, (float)this->window->getSize().y / 2 + 120);
 }
 
 void MainMenu::SelectUp()
@@ -81,7 +81,7 @@ void MainMenu::SelectDown()
 }
 
 // Public Methods
-MainMenu::MainMenu(sf::RenderWindow* window) : Scene{ window }
+MainMenu::MainMenu()
 {
 	this->menuState = true;
 	initFont();
@@ -95,7 +95,7 @@ MainMenu::~MainMenu()
 	this->menuState = false;
 }
 
-sf::View MainMenu::letterBox(sf::View view, float width, float height)
+sf::View MainMenu::letterBox(sf::View view, float width, float height) const
 {
 	float windowRatio = width / height;
 	float viewRatio = view.getSize().x / view.getSize().y;
@@ -119,12 +119,12 @@ sf::View MainMenu::letterBox(sf::View view, float width, float height)
 	return view;
 }
 
-void MainMenu::updateEvents()
+void MainMenu::updateEvents(sf::RenderWindow& target)
 {
-	while (this->window->pollEvent(event))
+	while (target.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
-			this->window->close();
+			target.close();
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			SelectUp();
@@ -133,28 +133,25 @@ void MainMenu::updateEvents()
 	}
 }
 
-void MainMenu::update()
+void MainMenu::update(sf::RenderWindow& target)
 {
-	this->updateEvents();
-
+	this->updateEvents(target);
 	this->selectionRect.setPosition(this->mainMenu[buttonSelected].getPosition().x - 1, this->mainMenu[buttonSelected].getPosition().y + 12.5f);
 	this->selectionRect.setSize(sf::Vector2f(FONT_SIZE * (float)mainMenu[buttonSelected].getString().getSize() + 10, FONT_SIZE + 10));
 	this->selectionRect.setOrigin(selectionRect.getSize().x / 2, selectionRect.getSize().y);
 }
 
-void MainMenu::render()
+void MainMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	this->window->clear();
-
+	target.clear(sf::Color::Black);
+	
 	for (int i = 0; i < MAX_MAINMENU_BUTTONS; ++i)
-		this->window->draw(mainMenu[i]);
+		target.draw(this->mainMenu[i], states);
+	
 
-	this->window->draw(this->selectionRect);
-	this->window->setView(this->letterBox(this->view, (float)this->window->getSize().x, (float)this->window->getSize().y));
-
-	this->window->display();
+	target.setView(this->letterBox(this->view, (float)target.getSize().x, (float)target.getSize().y));
+	target.draw(this->selectionRect, states);
 }
-
 
 int MainMenu::MainMenuPressed()
 {
@@ -164,9 +161,4 @@ int MainMenu::MainMenuPressed()
 const bool MainMenu::isRunning() const
 {
 	return menuState;
-}
-
-sf::RenderWindow* MainMenu::getWindow()
-{
-	return this->window;
 }

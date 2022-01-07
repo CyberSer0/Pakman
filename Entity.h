@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class Entity
+class Entity : public sf::Drawable
 {
 protected:
 	// Protected variables
@@ -21,6 +21,7 @@ protected:
 	/*
 	* Constructor - used to initialize all functions at the instatiation of the object
 	*/
+	Entity();
 	Entity(const std::string & textureName, int startTileX, int startTileY);
 	/*
 	* Deconstructor - deletes objects created in the constructor to prevent memory leaks
@@ -28,6 +29,6 @@ protected:
 	virtual ~Entity();
 public:
 	void update(); // Function to update variables and logic
-	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality
+	void draw(sf::RenderTarget& target, sf::RenderStates states); // Function to update graphic variables and functionality
 };
 

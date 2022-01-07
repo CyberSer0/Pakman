@@ -24,5 +24,6 @@ public:
 	bool loadMap(const std::string& tilemap, sf::Vector2u tileSize, const int* tiles, size_t width, size_t height);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::VertexArray getMapVertices() const;
+
 };
 

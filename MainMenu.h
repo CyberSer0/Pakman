@@ -8,15 +8,14 @@
 #define MAX_MAINMENU_BUTTONS 5
 #define FONT_SIZE 16
 
-class MainMenu : protected Scene
+class MainMenu : public sf::Drawable
 {
 	// Private Sector
 private:
-	bool menuState;
-
 	sf::Font font;
 	sf::Text mainMenu[MAX_MAINMENU_BUTTONS];
 	sf::Event event;
+	sf::VideoMode videoMode; // Creating videoMode object (holds the dimensions and other variables of the displayed window)
 
 	sf::RectangleShape selectionRect;
 
@@ -30,23 +29,22 @@ private:
 
 	// Public Sector
 public:
+	bool menuState;
 	int buttonSelected;
 
 	sf::View view;
 
 	MainMenu();
-	MainMenu(sf::RenderWindow* window);
 	virtual ~MainMenu();
 
-	sf::View letterBox(sf::View view, float width, float height);
+	sf::View letterBox(sf::View view, float width, float height) const;
 
-	void updateEvents();
-	void update();
-	void render();
+	void updateEvents(sf::RenderWindow& target);
+	void update(sf::RenderWindow& target);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	int MainMenuPressed();
 
 	const bool isRunning() const;
-	sf::RenderWindow* getWindow();
 };
 

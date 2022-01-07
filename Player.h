@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class Player : Entity
+class Player : public Entity
 {
 private:
 	// Variables
@@ -21,6 +21,7 @@ private:
 	void initVariables(); // Function to initialize and set values to all Variables
 public:
 	// De-/Constructor
+	Player();
 	Player(const std::string& textureName, int startTileX, int startTileY);
 
 	// Variables
@@ -32,6 +33,6 @@ public:
 	sf::FloatRect getCollisionBox() const;
 
 	void update(); // Function to update variables and logic
-	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // Function to update graphic variables and functionality
 };
 

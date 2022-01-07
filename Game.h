@@ -13,7 +13,7 @@
 	Main Game class/functionality wrapper
 */
 
-class Game : protected Scene
+class Game : Scene, public sf::Drawable
 {
 private:
 	sf::Event event;
@@ -21,19 +21,19 @@ private:
 	bool m_temp = false;
 
 	// Map
-	Tilemap* map; // Creating a ptr to the tilemap object map for creating a game environment
+	Tilemap map; // Tilemap object map for creating a game environment
 	sf::Vector2u tileSize; // Dimensions of one single tile of the tilemap
 	int* level; // Pointer to the array of tiles in the tilemap
 	float halfSize; // Half of the game enviroment length (for view setting)
 
 	// Entities
-	Player* player; // Creating a pointer to a player object
+	Player player; // Creating a player object
 	Enemy* enemy; // Creating an enemy
 
 	// Private functions
 	void initVariables(); // Function to initialize differrent variables
 	void initView(); // Function to set and modify the camera view
-	sf::View letterBox(sf::View view, size_t width, int height); // Function to responsively adjust the scale and size of the game objects and view
+	sf::View letterBox(sf::View view, size_t width, int height) const; // Function to responsively adjust the scale and size of the game objects and view
 	void initPlayer(); // Function to initialize the player object and it's functionality
 
 public: 
@@ -48,7 +48,7 @@ public:
 	* Constructor - used to initialize all functions at the start of the game
 	* Deconstor - deletes objects created in the constructor to prevent memory leaks
 	*/
-	Game(sf::RenderWindow* window); // Constructor
+	Game(); // Constructor
 	virtual ~Game(); // Deconstructor
 	void initMap(); // Function to initialize and load the game environment map
 	
@@ -58,9 +58,8 @@ public:
 	const bool gameRunning() const; // true - game is running, false - game is not running
 
 	// Functions
-	void updateEvents(); // Event Handler
-	void update(); // Logic and background updates
-	void render(); // Graphic updates
-	sf::RenderWindow* getWindow();
+	void updateEvents(sf::RenderWindow& target); // Event Handler
+	void update(sf::RenderWindow& target); // Logic and background updates
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // Graphic updates
 };
 

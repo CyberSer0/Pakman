@@ -6,24 +6,8 @@
 void Game::initVariables()
 {
 	this->gameState = true;
-	this->window->setView(this->view);
-	std::cout << this << "\tGame window:\t\t" << this->window << "\tView:\t" << &(this->view) << std::endl;
-	/*std::cout << "Wpisz rozmiar mapy (16 - 64): ";
-	std::cin >> this->size;
-	if (this->size < 16)
-	{
-		std::cout << "Too small of a value, changing to 16" << std::endl;
-		this->size = 16;
-	}
-	else if (this->size > 64)
-	{
-		std::cout << "Too big of a value, changing to 64" << std::endl;
-		this->size = 64;
-	}*/
 	this->size = 16;
-
 	this->level = new int[size * size];
-	
 	this->tileSize = sf::Vector2u(16, 16);
 }
 
@@ -65,16 +49,15 @@ void Game::initMap()
 		}
 	}
 
-	for (size_t i = 2; i < size - 2; ++i)
+	/*for (size_t i = 2; i < size - 2; ++i)
 		for (size_t j = 2; j < size - 2; ++j)
 			if (rand() > (RAND_MAX / 1.25))
 				level[i * size + j] = 11;
 			else if (rand() > (RAND_MAX / 3))
-				level[i * size + j] = 0;
+				level[i * size + j] = 0;*/
 			
 
-	this->map = new Tilemap();
-	map->loadMap("Assets/tileset.png", this->tileSize, this->level, size, size);
+	this->map.loadMap("Assets/tileset.png", this->tileSize, this->level, size, size);
 	
 }
 
@@ -83,10 +66,9 @@ void Game::initView()
 	this->halfSize = (float)(this->tileSize.x * this->size) / 2;
 	this->view.setCenter(this->halfSize, this->halfSize);
 	this->view.zoom(0.3f);
-	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
 }
 
-sf::View Game::letterBox(sf::View view, size_t width, int height)
+sf::View Game::letterBox(sf::View view, size_t width, int height) const
 {
 	float windowRatio = width / (float)height;
 	float viewRatio = view.getSize().x / (float)view.getSize().y;
@@ -112,12 +94,12 @@ sf::View Game::letterBox(sf::View view, size_t width, int height)
 
 void Game::initPlayer()
 {
-	this->player = new Player( "Assets/Player/pakman_right.png", ((int)tileSize.x / 2) * (int)size, ((int)tileSize.y / 2) * (int)size);
+	this->player = Player( "Assets/Player/pakman_right.png", ((int)tileSize.x / 2) * (int)size, ((int)tileSize.y / 2) * (int)size);
 }
 
 // De-/Constructors
 
-Game::Game(sf::RenderWindow* window) : Scene{ window }
+Game::Game()
 {
 	this->initVariables();
 	this->initMap();
@@ -128,10 +110,7 @@ Game::Game(sf::RenderWindow* window) : Scene{ window }
 Game::~Game()
 {
 	this->gameState = false;
-	delete this->player;
-	//delete this->enemy;
 	delete[] this->level;
-	delete this->map;
 }
 
 // Accessors
@@ -140,55 +119,48 @@ const bool Game::gameRunning() const
 	return gameState;
 }
 
-void Game::updateEvents()
+void Game::updateEvents(sf::RenderWindow& target)
 {
 	
-	while (this->window->pollEvent(event))
+	while (target.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
-			this->window->close();
+			target.close();
 	}
 
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		if (this->level[((size_t)this->player->currentTile.y - 1) * this->size + this->player->currentTile.x] == 0)
-			this->player->move(0.f, -1.f);
+		if (this->level[((size_t)this->player.currentTile.y - 1) * this->size + this->player.currentTile.x] == 0)
+			this->player.move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x - 1] == 0)
-			this->player->move(-1.f, 0.f);
+		if (this->level[this->player.currentTile.y * this->size + this->player.currentTile.x - 1] == 0)
+			this->player.move(-1.f, 0.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		if (this->level[((size_t)this->player->currentTile.y + 1) * this->size + this->player->currentTile.x] == 0)
-			this->player->move(0.f, 1.f);
+		if (this->level[((size_t)this->player.currentTile.y + 1) * this->size + this->player.currentTile.x] == 0)
+			this->player.move(0.f, 1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		if (this->level[this->player->currentTile.y * this->size + this->player->currentTile.x + 1] == 0)
-			this->player->move(1.f, 0.f);
+		if (this->level[this->player.currentTile.y * this->size + this->player.currentTile.x + 1] == 0)
+			this->player.move(1.f, 0.f);
 }
 	
 
 /*
-* Private Functions
+* Public Functions
 */
-void Game::update()
+void Game::update(sf::RenderWindow& target)
 {
-	// Backend logic, keystrokes
-	this->updateEvents();
-	player->update();
+	// Logic, ecent handler
+	this->updateEvents(target);
+	this->player.update();
 }
 
-void Game::render()
+void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
-	this->window->clear();
+	target.clear(sf::Color::Black);
+	target.setView(this->letterBox(this->view, target.getSize().x, target.getSize().y));
 
 	// Draw game objects
-	this->window->draw(*map);
-	this->player->render(*this->window);
-	this->window->setView(this->letterBox(this->view, this->window->getSize().x, this->window->getSize().y));
-
-	// Display the game
-	this->window->display();
+	target.draw(this->player);
+	target.draw(this->map);
 }
 
-sf::RenderWindow* Game::getWindow()
-{
-	return this->window;
-}

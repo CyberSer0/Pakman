@@ -18,10 +18,16 @@ void Player::initVariables()
 * Public functions
 */ 
 // Constructor
+Player::Player()
+{
+
+}
+
 Player::Player(const std::string& textureName, int startTileX, int startTileY) : Entity(textureName, startTileX, startTileY)
 {
 	this->initVariables();
 }
+
 
 // Functions
 void Player::move(const float dirX, const float dirY)
@@ -63,7 +69,8 @@ void Player::update()
 	//std::cout << "tileX: " << this->currentTile.x << ", tileY: " << this->currentTile.y << "\tX: " << this->getPos().x << ", Y: " << this->getPos().y << std::endl;
 }
 
-void Player::render(sf::RenderTarget& targetWindow)
+
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
-	targetWindow.draw(this->sprite);
+	target.draw(this->sprite);
 }
