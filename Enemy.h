@@ -2,31 +2,33 @@
 
 #include "Entity.h"
 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class Enemy : protected Entity
+class Enemy : public Entity
 {
 private:
 	// Variables
 	float movementSpeed; // Creating a movement speed variable
-	bool playerSeen = false; // Bool of if it has seen player
+	sf::Vector2f velocity;
+	sf::Texture textureLeft;
+	sf::Texture textureRight;
 
 	// Private functions
 	void initVariables(); // Function to initialize and set values to all Variables
 public:
 	// De-/Constructor
-	Enemy(const std::string& textureName, int startTileX, int startTileY);
+	Enemy();
+	Enemy(size_t startTileX, size_t startTileY);
 
 	// Variables
 	sf::Vector2i currentTile; // Vector of current Tile X and current Tile Y of the Entity
 
 	// Functions
-	void pathfind();
-	void randomWalk();
-	void move(const float dirX, const float dirY); // Function to move the enemy object/sprite
+	void move(const float dirX, const float dirY); // Function to move the player object/sprite
 
 	void update(); // Function to update variables and logic
-	void render(sf::RenderTarget& targetWindow); // Function to update graphic variables and functionality
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // Function to update graphic variables and functionality
 };
 

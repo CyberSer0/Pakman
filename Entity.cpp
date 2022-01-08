@@ -20,14 +20,14 @@ void Entity::initTexture(const std::string& textureName)
 void Entity::initSprite(int startTileX, int startTileY)
 {
 	this->sprite.setTexture(this->texture); // Setting the texture given to the sprite 
-	this->sprite.setOrigin(0, 0); // Setting Origin of the sprite at the middle of it (16x16 textures)
-	this->sprite.setPosition((float)startTileX, (float)startTileY); // Setting the position of the sprite at (startTileX, startTileY)
+	this->sprite.setOrigin(8, 8); // Setting Origin of the sprite at the middle of it (16x16 textures)
+	this->sprite.setPosition((float)startTileX*16 + this->sprite.getOrigin().x, (float)startTileY*16 + this->sprite.getOrigin().y); // Setting the position of the sprite at (startTileX, startTileY)
 }
 
 // Default constructor
 Entity::Entity()
 {
-
+	this->initVariables();
 }
 
 // Constructor with overload
@@ -45,11 +45,31 @@ Entity::~Entity()
 }
 
 //// Public Functions
-// Update function
-void Entity::update()
+
+void Entity::setPos(size_t x, size_t y)
 {
-	//this->currentTile = sf::Vector2i(sprite.getPosition().x / 16, sprite.getPosition().y / 16); // Updating the current Tile the sprite is at
-	this->collisionBox = this->sprite.getGlobalBounds(); // Setting the collision box to the global bounds of the sprite
+	this->sprite.setPosition(x + this->sprite.getOrigin().x, y + this->sprite.getOrigin().y);
+}
+
+sf::Vector2f Entity::getPos() const
+{
+	return sf::Vector2f(this->sprite.getPosition().x, this->sprite.getPosition().y);
+}
+
+sf::FloatRect Entity::getCollisionBox() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
+// Returns tiles in directions: {top, left, down, right}
+std::vector<int> Entity::nearbyTiles(Tilemap tilemap)
+{
+	std::vector<int> collisionDirections;
+	collisionDirections.insert(collisionDirections.end(), {0, 0, 0, 0});
+	
+	if (round(this->sprite.getPosition().y / 16))
+
+	return collisionDirections;
 }
 
 // Render function

@@ -1,19 +1,25 @@
 #include "MainMenu.h"
 #include "Game.h"
+#include <iostream>
 #include <windows.h>
 
 
 int main()
 {
-	sf::RenderWindow mainWindow(sf::VideoMode(640, 480), "Pakman");
+	sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "Pakman");
+	
+	// Delta time clock
+	sf::Clock deltaClock;
 
-	// Init Game
+	// Init Scenes
 	MainMenu mainMenu;
 	Game game;
 
 	// Loop
 	while (mainWindow.isOpen()) 
 	{
+		float delta = deltaClock.restart().asSeconds();
+
 		// Main menu loop when main menu is running
 		if (mainMenu.isRunning())
 		{
@@ -28,7 +34,7 @@ int main()
 				if (mainMenu.buttonSelected == 1)
 				{
 					mainMenu.menuState = false;
-					game = Game();
+					game.resetGame();
 					game.gameState = true;
 				}
 				else if (mainMenu.buttonSelected == 4)
@@ -46,7 +52,7 @@ int main()
 			mainWindow.draw(game);
 			
 			// Update logic
-			game.update(mainWindow);
+			game.update(mainWindow, delta);
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{

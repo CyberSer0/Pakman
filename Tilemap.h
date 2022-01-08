@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <stdlib.h>
 #include <SFML/Graphics.hpp>
 
 /*
@@ -17,13 +18,14 @@ private:
 	int tileNumber; // Number of tiles in the given tileset
 	int tu; // ##################DOCUMENTATION NEEDED###################
 	int tv; // ##################DOCUMENTATION NEEDED###################
+	std::vector<sf::FloatRect> collisionArray;
 
 public:
 	// Public functions
 	// Function to load the map, arguments: (tileset - name of tileset file, tileSize - dimensions of 1 tile, width, height - width and height of the generated map)
-	bool loadMap(const std::string& tilemap, sf::Vector2u tileSize, const int* tiles, size_t width, size_t height);
+	bool loadMap(const std::string& tilemap, sf::Vector2u tileSize, const int* tiles, int width, int height);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::VertexArray getMapVertices() const;
+	std::vector<sf::FloatRect> getMapCollisionArray() const;
 
 };
 

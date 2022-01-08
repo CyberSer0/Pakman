@@ -1,53 +1,54 @@
 #include "Enemy.h"
 
+using namespace sf;
+
+/*
+* Private functions
+*/
 void Enemy::initVariables()
 {
-	this->movementSpeed = 2.5f;
+	this->movementSpeed = 210.f;
+	this->textureLeft.loadFromFile("Assets/Enemy/enemy_left.png");
+	this->textureRight.loadFromFile("Assets/Enemy/enemy_right.png");
 }
 
 /*
-*  PUBLIC FUNCTIONS
+* Public functions
 */
 // Constructor
-Enemy::Enemy(const std::string& textureName, int startTileX, int startTileY) : Entity(textureName, startTileX, startTileY)
+Enemy::Enemy() : Entity("Assets/Enemy/enemy_right.png", 1, 1)
 {
 	this->initVariables();
 }
 
-// RandomWalk algorithm if player is not seen
-void Enemy::randomWalk()
+Enemy::Enemy(size_t startTileX, size_t startTileY) : Entity("Assets/Enemy/enemy_right.png", startTileX, startTileY)
 {
-
+	this->initVariables();
 }
 
-// Pathfinding A* to the players position if seen
-void Enemy::pathfind()
-{
-
-}
-
-// Movement function for enemy
+// Functions
 void Enemy::move(const float dirX, const float dirY)
 {
+	this->velocity = sf::Vector2f(dirX, dirY);
+	if (dirX > 0.f)
+	{
+		this->sprite.setTexture(textureRight);
+	}
+	else if (dirX < 0.f)
+	{
+		this->sprite.setTexture(textureLeft);
+	}
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
-// Update logic and functionality
 void Enemy::update()
 {
-	this->currentTile = sf::Vector2i((int)((float)this->sprite.getPosition().x / 16), (int)((float)this->sprite.getPosition().y / 16));
-
-	switch (this->playerSeen)
-	{
-	case true:
-		this->randomWalk();
-	case false:
-		this->pathfind();
-	}
+	this->currentTile = sf::Vector2i((int)((float)(sprite.getPosition().x) / 16), (int)((float)(sprite.getPosition().y) / 16));
+	//std::cout << "tileX: " << this->currentTile.x << ", tileY: " << this->currentTile.y << "\tX: " << this->getPos().x << ", Y: " << this->getPos().y << std::endl;
 }
 
-// Rendering graphics
-void Enemy::render(sf::RenderTarget& targetWindow)
-{
 
+void Enemy::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(this->sprite);
 }

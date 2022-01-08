@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Tilemap.h"
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -28,7 +30,12 @@ protected:
 	*/
 	virtual ~Entity();
 public:
-	void update(); // Function to update variables and logic
+	void setPos(size_t tileX, size_t tileY);
+	sf::Vector2f getPos() const;
+	sf::FloatRect getCollisionBox() const;
+
+	std::vector<int> nearbyTiles(Tilemap tilemap);
+	
 	void draw(sf::RenderTarget& target, sf::RenderStates states); // Function to update graphic variables and functionality
 };
 
