@@ -7,9 +7,9 @@ using namespace sf;
 */
 void Enemy::initVariables()
 {
-	this->movementSpeed = 210.f;
-	this->textureLeft.loadFromFile("Assets/Enemy/enemy_left.png");
-	this->textureRight.loadFromFile("Assets/Enemy/enemy_right.png");
+	this->movementSpeed = 160.f;
+	if(!this->textureLeft.loadFromFile("Assets/Enemy/enemy_left.png")) std::cout << "[ERR] LEFT texture of Enemy not found" << std::endl;
+	if (!this->textureRight.loadFromFile("Assets/Enemy/enemy_right.png")) std::cout << "[ERR] RIGHT texture of Enemy not found" << std::endl;
 }
 
 /*
@@ -21,7 +21,7 @@ Enemy::Enemy() : Entity("Assets/Enemy/enemy_right.png", 1, 1)
 	this->initVariables();
 }
 
-Enemy::Enemy(size_t startTileX, size_t startTileY) : Entity("Assets/Enemy/enemy_right.png", startTileX, startTileY)
+Enemy::Enemy(sf::Vector2u startTile) : Entity("Assets/Enemy/enemy_right.png", startTile.x, startTile.y)
 {
 	this->initVariables();
 }

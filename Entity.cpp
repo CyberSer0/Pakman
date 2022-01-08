@@ -14,6 +14,7 @@ void Entity::initTexture(const std::string& textureName)
 	{
 		std::cout << "[!] ERR::" << this << "::INITTEXTURE(): " << this << " texture couldn't be loaded\n" << std::endl;
 	}
+	this->texture.loadFromFile(textureName);
 }
 
 // Sprite Initialization
@@ -31,7 +32,7 @@ Entity::Entity()
 }
 
 // Constructor with overload
-Entity::Entity(const std::string& textureName, int startTileX, int startTileY)
+Entity::Entity(const std::string& textureName, size_t startTileX, size_t startTileY)
 {
 	this->initVariables();
 	this->initTexture(textureName); // Initializing texture with textureName
@@ -59,17 +60,6 @@ sf::Vector2f Entity::getPos() const
 sf::FloatRect Entity::getCollisionBox() const
 {
 	return this->sprite.getGlobalBounds();
-}
-
-// Returns tiles in directions: {top, left, down, right}
-std::vector<int> Entity::nearbyTiles(Tilemap tilemap)
-{
-	std::vector<int> collisionDirections;
-	collisionDirections.insert(collisionDirections.end(), {0, 0, 0, 0});
-	
-	if (round(this->sprite.getPosition().y / 16))
-
-	return collisionDirections;
 }
 
 // Render function

@@ -75,8 +75,10 @@ void Game::initEnemies()
 	this->enemyAmount = this->size / 4;
 	for (size_t i = 0; i < enemyAmount; ++i)
 	{
-		Enemy enemy((rand() % (this->size - 4) + 2), (rand() % (this->size - 4) + 2));
-		this->allEnemies.push_back(enemy);
+		sf::Vector2u randomTile = sf::Vector2u((rand() % (this->size - 4) + 2), (rand() % (this->size - 4) + 2));
+		while (this->level[randomTile.y * this->size + randomTile.x] != 0) randomTile = sf::Vector2u((rand() % (this->size - 4) + 2), (rand() % (this->size - 4) + 2));
+	
+		this->allEnemies.emplace_back(std::make_unique<Enemy>(randomTile));
 	}
 }
 
@@ -139,19 +141,19 @@ void Game::updateEvents(sf::RenderWindow& target, float delta)
 
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.y - 1) * this->size + this->player.currentTile.x]))
+		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.x ) * this->size + this->player.currentTile.y - 1]))
 			this->player.move(0.f * delta, -1.f * delta);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.y) * this->size + this->player.currentTile.x - 1]))
+		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.x - 1) * this->size + this->player.currentTile.y]))
 			this->player.move(-1.f * delta, 0.f * delta);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		if (this->level[((size_t)this->player.currentTile.y + 1) * this->size + this->player.currentTile.x] == 0)
+		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.x) * this->size + this->player.currentTile.y + 1]))
 			this->player.move(0.f * delta, 1.f * delta);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		if (this->level[this->player.currentTile.y * this->size + this->player.currentTile.x + 1] == 0)
+		if (!this->player.getCollisionBox().intersects(this->mapCollisionArray[(this->player.currentTile.x + 1) * this->size + this->player.currentTile.y]))
 			this->player.move(1.f * delta, 0.f * delta);
 }
 	
@@ -160,7 +162,7 @@ void Game::update(sf::RenderWindow& target, float delta)
 {
 	// Logic, ecent handler
 	this->updateEvents(target, delta);
-	for (Enemy i : this->allEnemies) i.update();
+	for (std::unique_ptr<Enemy>& i : this->allEnemies) i->update();
 	this->player.update();
 }
 
@@ -170,13 +172,14 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.setView(this->letterBox(this->view, target.getSize().x, target.getSize().y));
 
 	// Draw game objects
-	for(Enemy i : this->allEnemies) target.draw(i);
+	for(const auto& i : this->allEnemies) target.draw(*i);
 	target.draw(this->player);
 	target.draw(this->map);
 }
 
 void Game::resetGame()
 {
+	delete[] this->level;
 	srand((unsigned  int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 	this->initVariables();
 	this->initMap();

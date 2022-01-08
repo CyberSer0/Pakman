@@ -7,7 +7,7 @@ using namespace sf;
 */ 
 void Player::initVariables()
 {
-	this->movementSpeed = 200.f;
+	this->movementSpeed = 150.f;
 	this->textureLeft.loadFromFile("Assets/Player/pakman_left.png");
 	this->textureRight.loadFromFile("Assets/Player/pakman_right.png");
 	this->textureDown.loadFromFile("Assets/Player/pakman_down.png");

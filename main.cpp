@@ -37,7 +37,7 @@ int main()
 					game.resetGame();
 					game.gameState = true;
 				}
-				else if (mainMenu.buttonSelected == 4)
+				else if (mainMenu.buttonSelected == 3)
 				{
 					mainWindow.close();
 					return 0;

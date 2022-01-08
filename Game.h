@@ -29,7 +29,7 @@ private:
 
 	// Entities
 	Player player; // Player object
-	std::vector<Enemy> allEnemies; // Array of all enemies
+	std::vector<std::unique_ptr<Enemy>> allEnemies; // Array of all enemies
 
 	// Private Methods
 	void initVariables(); // Method to initialize differrent variables

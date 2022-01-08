@@ -24,7 +24,7 @@ protected:
 	* Constructor - used to initialize all functions at the instatiation of the object
 	*/
 	Entity();
-	Entity(const std::string & textureName, int startTileX, int startTileY);
+	Entity(const std::string & textureName, size_t startTileX, size_t startTileY);
 	/*
 	* Deconstructor - deletes objects created in the constructor to prevent memory leaks
 	*/
@@ -33,8 +33,6 @@ public:
 	void setPos(size_t tileX, size_t tileY);
 	sf::Vector2f getPos() const;
 	sf::FloatRect getCollisionBox() const;
-
-	std::vector<int> nearbyTiles(Tilemap tilemap);
 	
 	void draw(sf::RenderTarget& target, sf::RenderStates states); // Function to update graphic variables and functionality
 };

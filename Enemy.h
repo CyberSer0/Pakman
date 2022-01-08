@@ -20,7 +20,7 @@ private:
 public:
 	// De-/Constructor
 	Enemy();
-	Enemy(size_t startTileX, size_t startTileY);
+	Enemy(sf::Vector2u startTile);
 
 	// Variables
 	sf::Vector2i currentTile; // Vector of current Tile X and current Tile Y of the Entity

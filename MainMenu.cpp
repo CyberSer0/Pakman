@@ -15,14 +15,13 @@ void MainMenu::initVariables()
 	this->buttonSelected = 1;
 	this->selectionRect.setFillColor(sf::Color(0, 0, 0, 0));
 	this->selectionRect.setOutlineColor(sf::Color::White);
-	this->selectionRect.setOutlineThickness(1);
+	this->selectionRect.setOutlineThickness(2);
 }
 
 void MainMenu::initView()
 {
 	this->view.setCenter((float)this->videoMode.width / 2, (float)this->videoMode.height / 2);
-	this->view.zoom(0.75f);
-	//this->window->setView(this->letterBox(this->view, (float)this->videoMode.width, (float)this->videoMode.height));
+	this->view.zoom(0.5f);
 }
 
 void MainMenu::initButtons()
@@ -40,7 +39,7 @@ void MainMenu::initButtons()
 	this->mainMenu[1].setFillColor(sf::Color::White);
 	this->mainMenu[1].setString("Play");
 	this->mainMenu[1].setCharacterSize(FONT_SIZE);
-	this->mainMenu[1].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 120);
+	this->mainMenu[1].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 40);
 	this->mainMenu[1].setOrigin(FONT_SIZE * (float)mainMenu[1].getString().getSize() / 2, FONT_SIZE / 2);
 
 	// Editor Button
@@ -48,24 +47,16 @@ void MainMenu::initButtons()
 	this->mainMenu[2].setFillColor(sf::Color::White);
 	this->mainMenu[2].setString("Editor");
 	this->mainMenu[2].setCharacterSize(FONT_SIZE);
-	this->mainMenu[2].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 40);
+	this->mainMenu[2].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 40);
 	this->mainMenu[2].setOrigin(FONT_SIZE * (float)mainMenu[2].getString().getSize() / 2, FONT_SIZE / 2);
 
-	// Options Button
+	// Exit Button
 	this->mainMenu[3].setFont(this->font);
 	this->mainMenu[3].setFillColor(sf::Color::White);
-	this->mainMenu[3].setString("Options");
+	this->mainMenu[3].setString("Exit");
 	this->mainMenu[3].setCharacterSize(FONT_SIZE);
-	this->mainMenu[3].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 40);
+	this->mainMenu[3].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 120);
 	this->mainMenu[3].setOrigin(FONT_SIZE * (float)mainMenu[3].getString().getSize() / 2, FONT_SIZE / 2);
-
-	// Exit Button
-	this->mainMenu[4].setFont(this->font);
-	this->mainMenu[4].setFillColor(sf::Color::White);
-	this->mainMenu[4].setString("Exit");
-	this->mainMenu[4].setCharacterSize(FONT_SIZE);
-	this->mainMenu[4].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 120);
-	this->mainMenu[4].setOrigin(FONT_SIZE * (float)mainMenu[4].getString().getSize() / 2, FONT_SIZE / 2);
 }
 
 void MainMenu::SelectUp()
