@@ -139,7 +139,6 @@ void MainMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	for (int i = 0; i < MAX_MAINMENU_BUTTONS; ++i)
 		target.draw(this->mainMenu[i], states);
 	
-
 	target.setView(this->letterBox(this->view, (float)target.getSize().x, (float)target.getSize().y));
 	target.draw(this->selectionRect, states);
 }
@@ -151,5 +150,5 @@ int MainMenu::MainMenuPressed()
 
 const bool MainMenu::isRunning() const
 {
-	return menuState;
+	return this->menuState;
 }

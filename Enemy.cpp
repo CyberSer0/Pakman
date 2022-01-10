@@ -7,7 +7,7 @@ using namespace sf;
 */
 void Enemy::initVariables()
 {
-	this->movementSpeed = 160.f;
+	this->movementSpeed = MOVE_SPEED;
 	if(!this->textureLeft.loadFromFile("Assets/Enemy/enemy_left.png")) std::cout << "[ERR] LEFT texture of Enemy not found" << std::endl;
 	if (!this->textureRight.loadFromFile("Assets/Enemy/enemy_right.png")) std::cout << "[ERR] RIGHT texture of Enemy not found" << std::endl;
 }

@@ -3,7 +3,7 @@
 using namespace sf;
 
 // Public functions
-bool Tilemap::loadMap(const std::string & tileset, sf::Vector2u tileSize, const int* tiles, int width, int height)
+bool Tilemap::loadMap(const std::string & tileset, sf::Vector2u tileSize, std::vector<size_t> tiles, size_t width, size_t height)
 {
 	this->collisionArray.clear();
 	// Loading tileset texture
@@ -15,7 +15,7 @@ bool Tilemap::loadMap(const std::string & tileset, sf::Vector2u tileSize, const 
 
 	// Resizing the vertex array
 	this->vertices.setPrimitiveType(sf::Quads);
-	this->vertices.resize(width * height * 4);
+	this->vertices.resize((size_t)width * (size_t)height * 4);
 
 	system("CLS");
 
@@ -74,5 +74,8 @@ std::vector<sf::FloatRect> Tilemap::getMapCollisionArray() const
 }
 
 
-
+Tilemap::~Tilemap()
+{
+	//delete this->quad;
+}
 

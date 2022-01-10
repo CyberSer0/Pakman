@@ -6,6 +6,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#define MOVE_SPEED 80.f
+#define RUN_SPEED 160.f
+
 class Enemy : public Entity
 {
 private:

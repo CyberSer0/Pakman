@@ -7,7 +7,9 @@ void Game::initVariables()
 {
 	this->gameState = true;
 	this->size = 16;
-	this->level = new int[this->size * this->size];
+	for (size_t i = 0; i < this->size; ++i)
+		for (size_t j = 0; j < this->size; ++j)
+			level.emplace_back(0);
 	this->tileSize = sf::Vector2u(16, 16);
 }
 
@@ -57,7 +59,7 @@ void Game::initMap()
 				level[i * this->size + j] = 0;
 			
 
-	this->map.loadMap("Assets/tileset.png", this->tileSize, this->level, this->size, this->size);
+	this->map.loadMap("Assets/tileset.png", sf::Vector2u(16, 16), this->level, this->size, this->size);
 	this->mapCollisionArray.clear();
 	this->mapCollisionArray = this->map.getMapCollisionArray();
 }
@@ -121,11 +123,10 @@ Game::Game()
 // Deconstructor
 Game::~Game()
 {
-	delete[] this->level;
 }
 
 // Accessors
-const bool Game::gameRunning() const
+const bool Game::isRunning() const
 {
 	return this->gameState;
 }
@@ -179,7 +180,6 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Game::resetGame()
 {
-	delete[] this->level;
 	srand((unsigned  int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 	this->initVariables();
 	this->initMap();

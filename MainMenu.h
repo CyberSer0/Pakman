@@ -1,5 +1,4 @@
 #pragma once
-#include "Scene.h"
 #include "Game.h"
 
 #include <iostream>

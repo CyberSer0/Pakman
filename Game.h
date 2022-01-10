@@ -23,7 +23,7 @@ private:
 	// Map
 	Tilemap map; // Tilemap object map for creating a game environment
 	sf::Vector2u tileSize; // Dimensions of one single tile of the tilemap
-	int* level; // Pointer to the array of tiles in the tilemap
+	std::vector<size_t> level; // Pointer to the array of tiles in the tilemap
 	float halfSize; // Half of the game enviroment length (for view setting)
 	std::vector<sf::FloatRect> mapCollisionArray;
 
@@ -56,7 +56,7 @@ public:
 	/*
 	* Accessors - serve as bools to check certain game states
 	*/
-	const bool gameRunning() const; // true - game is running, false - game is not running
+	const bool isRunning() const; // true - game is running, false - game is not running
 
 	// Methods
 	void updateEvents(sf::RenderWindow& target, float delta); // Event Handler
