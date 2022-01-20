@@ -3,11 +3,16 @@
 #include "Entity.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "MainMenu.h"
 #include "Tilemap.h"
+#include "Editor.h"
+#include <iostream>
+#include <windows.h>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <chrono>
+#include <fstream>
 
 /*
 	Main Game class/Functionality wrapper
@@ -50,6 +55,7 @@ public:
 	* Deconstor - deletes objects created in the constructor to prevent memory leaks
 	*/
 	Game(); // Constructor
+	Game(std::string filename); // Constructor
 	virtual ~Game(); // Deconstructor
 	void initMap(); // Method to initialize and load the game environment map
 	
@@ -59,6 +65,7 @@ public:
 	const bool isRunning() const; // true - game is running, false - game is not running
 
 	// Methods
+	void loadMap(std::string filename);
 	void updateEvents(sf::RenderWindow& target, float delta); // Event Handler
 	void update(sf::RenderWindow& target, float delta); // Logic and background updates
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // Graphic updates

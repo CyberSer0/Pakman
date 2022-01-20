@@ -1,11 +1,9 @@
-#include "MainMenu.h"
 #include "Game.h"
-#include "Editor.h"
-#include <iostream>
-#include <windows.h>
+
 
 int main(char* argv[])
 {
+	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 	sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "Pakman");
 	
 	// Delta time clock
@@ -14,6 +12,8 @@ int main(char* argv[])
 	// Init Scenes
 	MainMenu mainMenu;
 	Game game;
+//	if (argv != nullptr)
+//		game.loadMap(*argv);
 	Editor editor;
 
 	// Loop
@@ -89,4 +89,5 @@ int main(char* argv[])
 			mainWindow.display();
 		}
 	}
+	return 0;
 }

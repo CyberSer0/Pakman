@@ -15,8 +15,9 @@ void Game::initVariables()
 
 void Game::initMap()
 {
+
 	// 0 - blank | 1 - upperL corner | 2 - upperR corner | 3 - lowerL corner | 4 - lowerR corner
-	// 5 - Ver. wall | 6 - Hor. wall | 7 - U-shape wall | 8 - n-shape wall | 9 - C-shape wall | 10 - >-shape wall
+	// 5 - Ver. wall | 6 - Hor. wall | 7 - U-shape wall | 8 - n-shape wall | 9 - C-shape wall | 10 - >-shape wall | 11 - square wall
 	for (unsigned int i = 0; i < this->size; ++i){
 		for (unsigned int j = 0; j < this->size; ++j)
 		{
@@ -120,6 +121,13 @@ Game::Game()
 	this->initView();
 }
 
+Game::Game(std::string filename) 
+{
+	this->initVariables();
+	this->loadMap(filename);
+	this->initView();
+}
+
 // Deconstructor
 Game::~Game()
 {
@@ -129,6 +137,22 @@ Game::~Game()
 const bool Game::isRunning() const
 {
 	return this->gameState;
+}
+
+void Game::loadMap(std::string filename)
+{
+	std::ifstream savedMap(filename);
+	this->level.clear();
+	size_t i = 0;
+	std::string x;
+	while (savedMap >> x)
+	{
+		++i;
+		this->level.push_back(std::stoi(x));
+	}
+	this->map.loadMap("Assets/tileset.png", sf::Vector2u(16, 16), this->level, this->size, this->size);
+	this->mapCollisionArray.clear();
+	this->mapCollisionArray = this->map.getMapCollisionArray();
 }
 
 void Game::updateEvents(sf::RenderWindow& target, float delta)
@@ -163,7 +187,12 @@ void Game::update(sf::RenderWindow& target, float delta)
 {
 	// Logic, ecent handler
 	this->updateEvents(target, delta);
-	for (std::unique_ptr<Enemy>& i : this->allEnemies) i->update();
+	for (std::unique_ptr<Enemy>& i : this->allEnemies)
+	{
+		i->update(delta);
+		if (std::abs(i->getPos().x - this->player.getPos().x) < 64 && std::abs(i->getPos().y - this->player.getPos().y) < 64) i->setPlayerDetected(this->player);
+		else i->clearPlayerDetected();
+	}
 	this->player.update();
 }
 
