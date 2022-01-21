@@ -5,12 +5,41 @@ using namespace sf;
 /*
 * Private functions
 */
+void Enemy::pathfind(Player player, std::vector<pathNode> pathLevel, float delta)
+{
+	std::vector<pathNode> openPathNodes;
+	std::vector<pathNode> closedPathNodes;
+}
+
 void Enemy::initVariables()
 {
 	this->movementSpeed = MOVE_SPEED;
 	if(!this->textureLeft.loadFromFile("Assets/Enemy/enemy_left.png")) std::cout << "[ERR] LEFT texture of Enemy not found" << std::endl;
 	if (!this->textureRight.loadFromFile("Assets/Enemy/enemy_right.png")) std::cout << "[ERR] RIGHT texture of Enemy not found" << std::endl;
 	this->seenPlayer = nullptr;
+}
+
+void Enemy::initPathLevel(std::vector<size_t> level)
+{
+	this->pathLevel.clear();
+	pathNode currentNode;
+	for (auto i : level)
+		if (i != 0)
+		{
+			currentNode.G = 999;
+			currentNode.H = 999;
+			currentNode.F = currentNode.G + currentNode.H;
+			currentNode.nextPathNode = nullptr;
+			this->pathLevel.push_back(currentNode);
+		}
+		else
+		{
+			currentNode.G = 0;
+			currentNode.H = 0;
+			currentNode.F = currentNode.G + currentNode.H;
+			currentNode.nextPathNode = nullptr;
+			this->pathLevel.push_back(currentNode);
+		}
 }
 
 bool Enemy::randomWalk(float delta)
@@ -33,9 +62,10 @@ Enemy::Enemy() : Entity("Assets/Enemy/enemy_right.png", 1, 1)
 	this->initVariables();
 }
 
-Enemy::Enemy(sf::Vector2u startTile) : Entity("Assets/Enemy/enemy_right.png", startTile.x, startTile.y)
+Enemy::Enemy(sf::Vector2u startTile, std::vector<size_t> level) : Entity("Assets/Enemy/enemy_right.png", startTile.x, startTile.y)
 {
 	this->initVariables();
+	this->initPathLevel(level);
 }
 
 // Functions
@@ -60,8 +90,7 @@ void Enemy::update(float delta)
 	if (seenPlayer != nullptr)
 	{
 		this->movementSpeed = RUN_SPEED;
-		sf::Vector2f tempDir = -(sf::Vector2f(this->getPos().x , this->getPos().y) - this->seenPlayer->getPos()) / std::sqrt(this->seenPlayer->getPos().x * this->seenPlayer->getPos().x + this->seenPlayer->getPos().y * this->seenPlayer->getPos().y);
-		this->move(tempDir.x * delta, tempDir.y * delta);
+		this->pathfind(*seenPlayer, this->pathLevel, delta);
 	}
 	else
 	{

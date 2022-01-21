@@ -81,7 +81,7 @@ void Game::initEnemies()
 		sf::Vector2u randomTile = sf::Vector2u((rand() % (this->size - 4) + 2), (rand() % (this->size - 4) + 2));
 		while (this->level[randomTile.y * this->size + randomTile.x] != 0) randomTile = sf::Vector2u((rand() % (this->size - 4) + 2), (rand() % (this->size - 4) + 2));
 	
-		this->allEnemies.emplace_back(std::make_unique<Enemy>(randomTile));
+		this->allEnemies.emplace_back(std::make_unique<Enemy>(randomTile, this->level));
 	}
 }
 
