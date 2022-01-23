@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#define MAX_MAINMENU_BUTTONS 4
+#define MAX_MAINMENU_BUTTONS 5
 #define FONT_SIZE 16
 
 class MainMenu : public sf::Drawable

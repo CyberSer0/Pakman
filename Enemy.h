@@ -11,12 +11,16 @@
 #define MOVE_SPEED 80.f
 #define RUN_SPEED 160.f
 
+/*
+* Structure created for pathfinding to some locations
+*/
 struct pathNode
 {
-	size_t G;
-	size_t H;
-	size_t F;
-	pathNode* nextPathNode;
+	sf::Vector2<size_t> selfPos; // size_t position sf::Vector2 of the pathNode
+	size_t G; // Distance from this
+	size_t H; // Distance from the target
+	size_t F; // Sum of the distances from this and from the target
+	std::vector<std::reference_wrapper<pathNode>> neighbours; // Left, top, right, bottom neighbour pathNodes
 };
 
 class Enemy : public Entity
@@ -29,7 +33,7 @@ private:
 	sf::Texture textureRight;
 	Player* seenPlayer;
 	std::vector<pathNode> pathLevel;
-	void pathfind(Player player, std::vector<pathNode> level, float delta);
+	void pathfind(sf::Vector2f targetPos, std::vector<pathNode> level, float delta);
 
 	// Private functions
 	void initVariables(); // Function to initialize and set values to all Variables

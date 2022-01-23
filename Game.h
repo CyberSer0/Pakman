@@ -13,6 +13,7 @@
 #include <SFML/System.hpp>
 #include <chrono>
 #include <fstream>
+#include <comdef.h>
 
 /*
 	Main Game class/Functionality wrapper
@@ -54,8 +55,7 @@ public:
 	* Constructor - used to initialize all Methods at the start of the game
 	* Deconstor - deletes objects created in the constructor to prevent memory leaks
 	*/
-	Game(); // Constructor
-	Game(std::string filename); // Constructor
+	Game(); // Constructor*
 	virtual ~Game(); // Deconstructor
 	void initMap(); // Method to initialize and load the game environment map
 	
@@ -65,10 +65,11 @@ public:
 	const bool isRunning() const; // true - game is running, false - game is not running
 
 	// Methods
-	void loadMap(std::string filename);
+	void loadMapFile(PWSTR filename);
 	void updateEvents(sf::RenderWindow& target, float delta); // Event Handler
 	void update(sf::RenderWindow& target, float delta); // Logic and background updates
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const; // Graphic updates
 	void resetGame();
+	void loadGameWithMap(PWSTR fileName);
 };
 

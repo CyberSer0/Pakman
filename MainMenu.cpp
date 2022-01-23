@@ -39,24 +39,32 @@ void MainMenu::initButtons()
 	this->mainMenu[1].setFillColor(sf::Color::White);
 	this->mainMenu[1].setString("Play");
 	this->mainMenu[1].setCharacterSize(FONT_SIZE);
-	this->mainMenu[1].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 40);
+	this->mainMenu[1].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 100);
 	this->mainMenu[1].setOrigin(FONT_SIZE * (float)mainMenu[1].getString().getSize() / 2, FONT_SIZE / 2);
 
-	// Editor Button
+	// Load Button
 	this->mainMenu[2].setFont(this->font);
 	this->mainMenu[2].setFillColor(sf::Color::White);
-	this->mainMenu[2].setString("Editor");
+	this->mainMenu[2].setString("Load");
 	this->mainMenu[2].setCharacterSize(FONT_SIZE);
-	this->mainMenu[2].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 40);
+	this->mainMenu[2].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 - 30);
 	this->mainMenu[2].setOrigin(FONT_SIZE * (float)mainMenu[2].getString().getSize() / 2, FONT_SIZE / 2);
 
-	// Exit Button
+	// Editor Button
 	this->mainMenu[3].setFont(this->font);
 	this->mainMenu[3].setFillColor(sf::Color::White);
-	this->mainMenu[3].setString("Exit");
+	this->mainMenu[3].setString("Editor");
 	this->mainMenu[3].setCharacterSize(FONT_SIZE);
-	this->mainMenu[3].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 120);
+	this->mainMenu[3].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 40);
 	this->mainMenu[3].setOrigin(FONT_SIZE * (float)mainMenu[3].getString().getSize() / 2, FONT_SIZE / 2);
+
+	// Exit Button
+	this->mainMenu[4].setFont(this->font);
+	this->mainMenu[4].setFillColor(sf::Color::White);
+	this->mainMenu[4].setString("Exit");
+	this->mainMenu[4].setCharacterSize(FONT_SIZE);
+	this->mainMenu[4].setPosition((float)this->videoMode.width / 2, (float)this->videoMode.height / 2 + 110);
+	this->mainMenu[4].setOrigin(FONT_SIZE * (float)mainMenu[4].getString().getSize() / 2, FONT_SIZE / 2);
 }
 
 void MainMenu::SelectUp()

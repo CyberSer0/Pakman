@@ -1,7 +1,10 @@
 #include "Game.h"
+#include <Windows.h>
+#include <shobjidl.h>
 
+int WINAPI loadMapFromFile(Game& game, MainMenu& mainMenu, Editor& editor);
 
-int main(char* argv[])
+int main()
 {
 	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 	sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "Pakman");
@@ -42,12 +45,16 @@ int main(char* argv[])
 					}
 					else if (mainMenu.buttonSelected == 2)
 					{
+						loadMapFromFile(game, mainMenu, editor);
+					}
+					else if (mainMenu.buttonSelected == 3)
+					{
 						mainMenu.menuState = false;
 						game.gameState = false;
 						editor.resetEditor();
 						editor.editorState = true;
 					}
-					else if (mainMenu.buttonSelected == 3)
+					else if (mainMenu.buttonSelected == 4)
 					{
 						mainWindow.close();
 						return 0;
@@ -88,6 +95,52 @@ int main(char* argv[])
 			mainWindow.setVerticalSyncEnabled(true);
 			mainWindow.display();
 		}
+	}
+	return 0;
+}
+
+int WINAPI loadMapFromFile(Game& game, MainMenu& mainMenu, Editor& editor)
+{
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED |
+		COINIT_DISABLE_OLE1DDE);
+	if (SUCCEEDED(hr))
+	{
+		IFileOpenDialog* pFileOpen;
+
+		// Create the FileOpenDialog object.
+		hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL,
+			IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen));
+
+		if (SUCCEEDED(hr))
+		{
+			// Show the Open dialog box.
+			hr = pFileOpen->Show(NULL);
+
+			// Get the file name from the dialog box.
+			if (SUCCEEDED(hr))
+			{
+				IShellItem* pItem;
+				hr = pFileOpen->GetResult(&pItem);
+				if (SUCCEEDED(hr))
+				{
+					PWSTR pszFilePath;
+					hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+
+					// Display the file name to the user.
+					if (SUCCEEDED(hr))
+					{
+						mainMenu.menuState = false;
+						editor.editorState = false;
+						game.loadGameWithMap(pszFilePath);
+						game.gameState = true;
+						CoTaskMemFree(pszFilePath);
+					}
+					pItem->Release();
+				}
+			}
+			pFileOpen->Release();
+		}
+		CoUninitialize();
 	}
 	return 0;
 }

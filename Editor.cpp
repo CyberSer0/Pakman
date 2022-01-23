@@ -48,7 +48,7 @@ void Editor::saveMap()
 {
 	for (size_t i = 0; i < this->mapSize * this->mapSize; ++i) if (this->level[i] == 12) this->level[i] = 0;
 
-	this->outputFile.open("Saves/SavedTileset" + std::to_string((unsigned  int)std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".txt");
+	this->outputFile.open("Saves/SavedTileset" + std::to_string((unsigned  int)std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".paksave");
 
 	for (size_t i = 0; i < this->mapSize; ++i)
 	{

@@ -5,10 +5,30 @@ using namespace sf;
 /*
 * Private functions
 */
-void Enemy::pathfind(Player player, std::vector<pathNode> pathLevel, float delta)
+void Enemy::pathfind(sf::Vector2f targetPos, std::vector<pathNode> pathLevel, float delta)
 {
-	std::vector<pathNode> openPathNodes;
-	std::vector<pathNode> closedPathNodes;
+	std::vector<std::reference_wrapper<pathNode>> openPathNodes;
+	std::vector<std::reference_wrapper<pathNode>> closedPathNodes;
+	pathNode* currentNode;
+	size_t minF = 999;
+
+	for (auto node : pathLevel)
+		if (node.selfPos == sf::Vector2<size_t>((unsigned int)this->currentTile.x * TILESIZE.x + 8, (unsigned int)this->currentTile.y * TILESIZE.y + 8))
+			currentNode = &node;
+
+	while (true)
+	{
+		for (pathNode &node : openPathNodes)
+		{
+			if (node.F < minF)
+			{
+				currentNode = &node;
+				minF = node.F;
+			}
+		}
+		minF = 999;
+		break;
+	}
 }
 
 void Enemy::initVariables()
@@ -23,22 +43,41 @@ void Enemy::initPathLevel(std::vector<size_t> level)
 {
 	this->pathLevel.clear();
 	pathNode currentNode;
-	for (auto i : level)
-		if (i != 0)
+	size_t mapSize = 16;
+	for (size_t y = 0; y < mapSize; ++y)
+		for (size_t x = 0; x < mapSize; ++x)
+		{
+		currentNode.selfPos = sf::Vector2<size_t>(x * TILESIZE.x + 8, y * TILESIZE.y + 8);
+		if (level[y * mapSize + x] != 0)
 		{
 			currentNode.G = 999;
 			currentNode.H = 999;
-			currentNode.F = currentNode.G + currentNode.H;
-			currentNode.nextPathNode = nullptr;
-			this->pathLevel.push_back(currentNode);
 		}
 		else
 		{
-			currentNode.G = 0;
+			currentNode.G = std::sqrt(abs(this->getPos().x - currentNode.selfPos.x) * abs(this->getPos().x - currentNode.selfPos.x) + abs(this->getPos().y - currentNode.selfPos.y) * abs(this->getPos().y - currentNode.selfPos.y));
 			currentNode.H = 0;
-			currentNode.F = currentNode.G + currentNode.H;
-			currentNode.nextPathNode = nullptr;
-			this->pathLevel.push_back(currentNode);
+		}
+		currentNode.F = currentNode.G + currentNode.H;
+		this->pathLevel.push_back(currentNode);
+		}
+
+	for (size_t y = 1; y < mapSize - 1; ++y)
+		for (size_t x = 1; x < mapSize - 1; ++x)
+		{
+			// Adding 4 neighbours
+			// Left neighbour
+			std::reference_wrapper<pathNode> neighbour = this->pathLevel[y * mapSize + x - 1];
+			this->pathLevel[y * mapSize + x].neighbours.push_back(neighbour);
+			// Top neighbour
+			neighbour = this->pathLevel[(y - 1) * mapSize + x];
+			this->pathLevel[y * mapSize + x].neighbours.push_back(neighbour);
+			// Right neighbour
+			neighbour = this->pathLevel[y * mapSize + x + 1];
+			this->pathLevel[y * mapSize + x].neighbours.push_back(neighbour);
+			// Bottom neighbour
+			neighbour = this->pathLevel[(y + 1) * mapSize + x];
+			this->pathLevel[y * mapSize + x].neighbours.push_back(neighbour);
 		}
 }
 
@@ -72,14 +111,8 @@ Enemy::Enemy(sf::Vector2u startTile, std::vector<size_t> level) : Entity("Assets
 void Enemy::move(const float dirX, const float dirY)
 {
 	//this->velocity = sf::Vector2f(dirX, dirY);
-	if (dirX > 0.f)
-	{
-		this->sprite.setTexture(textureRight);
-	}
-	else if (dirX < 0.f)
-	{
-		this->sprite.setTexture(textureLeft);
-	}
+	if (dirX > 0.f) this->sprite.setTexture(textureRight);
+	else if (dirX < 0.f) this->sprite.setTexture(textureLeft);
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
@@ -90,7 +123,7 @@ void Enemy::update(float delta)
 	if (seenPlayer != nullptr)
 	{
 		this->movementSpeed = RUN_SPEED;
-		this->pathfind(*seenPlayer, this->pathLevel, delta);
+		this->pathfind(seenPlayer->getPos() , this->pathLevel, delta);
 	}
 	else
 	{

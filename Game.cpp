@@ -5,11 +5,12 @@
 */
 void Game::initVariables()
 {
+	this->level.clear();
 	this->gameState = true;
 	this->size = 16;
 	for (size_t i = 0; i < this->size; ++i)
 		for (size_t j = 0; j < this->size; ++j)
-			level.emplace_back(0);
+			this->level.emplace_back(0);
 	this->tileSize = sf::Vector2u(16, 16);
 }
 
@@ -121,12 +122,6 @@ Game::Game()
 	this->initView();
 }
 
-Game::Game(std::string filename) 
-{
-	this->initVariables();
-	this->loadMap(filename);
-	this->initView();
-}
 
 // Deconstructor
 Game::~Game()
@@ -139,15 +134,14 @@ const bool Game::isRunning() const
 	return this->gameState;
 }
 
-void Game::loadMap(std::string filename)
+void Game::loadMapFile(PWSTR filename)
 {
-	std::ifstream savedMap(filename);
+	std::ifstream savedMap;
+	savedMap.open(filename);
 	this->level.clear();
-	size_t i = 0;
 	std::string x;
 	while (savedMap >> x)
 	{
-		++i;
 		this->level.push_back(std::stoi(x));
 	}
 	this->map.loadMap("Assets/tileset.png", sf::Vector2u(16, 16), this->level, this->size, this->size);
@@ -212,6 +206,15 @@ void Game::resetGame()
 	srand((unsigned  int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 	this->initVariables();
 	this->initMap();
+	this->initEnemies();
+	this->player.setPos(this->tileSize.x, this->tileSize.y);
+}
+
+void Game::loadGameWithMap(PWSTR fileName)
+{
+	srand((unsigned  int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+	this->initVariables();
+	this->loadMapFile(fileName);
 	this->initEnemies();
 	this->player.setPos(this->tileSize.x, this->tileSize.y);
 }
